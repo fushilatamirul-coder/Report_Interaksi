@@ -71,6 +71,7 @@
             gap: 1rem;
             justify-content: flex-end;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
         .btn-export {
             padding: 10px 24px;
@@ -97,6 +98,18 @@
             box-shadow: 0 4px 10px rgba(44,62,80,0.3);
         }
         .btn-jpeg:hover { background: #1a2632; transform: translateY(-2px); }
+        .btn-save-data {
+            background: #27ae60;
+            color: white;
+            box-shadow: 0 4px 10px rgba(39,174,96,0.3);
+        }
+        .btn-save-data:hover { background: #219a52; transform: translateY(-2px); }
+        .btn-save-data:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
 
         .stats-grid {
             display: flex;
@@ -138,7 +151,7 @@
         }
         .chart-wrapper {
             flex: 1.2;
-            min-width: 260px;
+            min-width: 280px;
             background: white;
             border-radius: 28px;
             padding: 1.2rem;
@@ -216,14 +229,41 @@
         }
         .total-cell { font-weight: 800; color: #b1622c; background: #fff4ec; border-radius: 30px; display: inline-block; padding: 4px 12px; }
         .footer-note { text-align: right; font-size: 0.7rem; color: #a58365; margin-top: 1rem; padding: 0 1rem 1rem 0; }
-        canvas { max-height: 240px; width: 100%; }
+        canvas { max-height: 220px; width: 100%; }
         @media (max-width: 780px) { body { padding: 1rem; } th, td { font-size: 0.7rem; } .interaction-input { width: 60px; font-size: 0.7rem; } }
-        .leaderboard-card { background: #fefaf5; border-radius: 20px; padding: 0.6rem; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .search-box { margin: 0 1rem 1rem auto; display: flex; justify-content: flex-end; gap: 8px; }
-        .search-box input { padding: 8px 14px; border-radius: 50px; border: 1px solid #e7d8cb; width: 220px; font-family: 'Inter', sans-serif; background: white; }
-        .btn-reset { background: #e7d8ca; border: none; padding: 6px 14px; border-radius: 40px; font-weight: 600; font-size: 0.7rem; cursor: pointer; transition: 0.2s; }
-        .btn-reset:hover { background: #d6c2ae; }
         
+        .ranking-list {
+            margin-top: 0.5rem;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fefaf5;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border-radius: 40px;
+            border: 1px solid #f2e2d2;
+        }
+        .ranking-number {
+            font-weight: 800;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e7daca;
+            border-radius: 50%;
+            font-size: 0.8rem;
+        }
+        .ranking-name { flex: 2; font-weight: 600; margin-left: 12px; font-size: 0.85rem; }
+        .ranking-score { font-weight: 800; background: #c5854b20; padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; }
+        .medal-gold { background: #FFD700; color: #5c3a22; }
+        .medal-silver { background: #C0C0C0; color: #2c241e; }
+        .medal-bronze { background: #CD7F32; color: white; }
+
         .summary-report {
             background: white;
             border-radius: 28px;
@@ -254,43 +294,34 @@
             border-bottom: 2px dashed #e9cfb5;
             padding-bottom: 8px;
         }
-        .insight-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #3e2a1f;
-            margin: 8px 0;
-        }
-        .progress-bar-bg {
-            background: #f0e2d4;
-            border-radius: 20px;
-            height: 8px;
-            overflow: hidden;
-            margin: 8px 0;
-        }
-        .progress-fill {
-            background: #c5854b;
-            height: 100%;
-            border-radius: 20px;
-            width: 0%;
-        }
-        .badge-insight {
-            background: #e7daca;
-            padding: 4px 12px;
+        .insight-value { font-size: 1.8rem; font-weight: 800; color: #3e2a1f; margin: 8px 0; }
+        .progress-bar-bg { background: #f0e2d4; border-radius: 20px; height: 8px; overflow: hidden; margin: 8px 0; }
+        .progress-fill { background: #c5854b; height: 100%; border-radius: 20px; width: 0%; }
+        .badge-insight { background: #e7daca; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
+        .stat-percent { font-size: 0.7rem; display: flex; justify-content: space-between; margin-top: 6px; }
+        .export-hide { display: none !important; }
+        .btn-reset { background: #e7d8ca; border: none; padding: 6px 14px; border-radius: 40px; font-weight: 600; font-size: 0.7rem; cursor: pointer; transition: 0.2s; }
+        .btn-reset:hover { background: #d6c2ae; }
+        .search-box { margin: 0 1rem 1rem auto; display: flex; justify-content: flex-end; gap: 8px; }
+        .search-box input { padding: 8px 14px; border-radius: 50px; border: 1px solid #e7d8cb; width: 220px; font-family: 'Inter', sans-serif; background: white; }
+        
+        /* Toast Notification */
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #27ae60;
+            color: white;
+            padding: 12px 24px;
             border-radius: 50px;
-            font-size: 0.7rem;
             font-weight: 600;
-            display: inline-block;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
         }
-        .stat-percent {
-            font-size: 0.7rem;
-            display: flex;
-            justify-content: space-between;
-            margin-top: 6px;
-        }
-
-        /* Sembunyikan tombol saat export untuk tampilan bersih */
-        .export-hide {
-            display: none !important;
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
@@ -299,17 +330,17 @@
     <div class="brand-header">
         <div class="title-section">
             <h1><i class="fab fa-instagram" style="color:#c5854b; margin-right: 8px;"></i> Pawon Mbah Gito · Laporan Partisipasi Karyawan</h1>
-            <p>📊 Input interaksi Like, Komentar, Share/Repost, Save secara langsung — Total & Grafik Otomatis Terupdate</p>
+            <p>📊 Input interaksi Like, Komentar, Share/Repost, Save — Total & Grafik Otomatis Terupdate</p>
         </div>
         <div class="date-badge">
             <i class="far fa-calendar-alt"></i> Periode: 1 - 30 April 2026
         </div>
     </div>
 
-    <!-- Tombol Export di dalam container namun akan disembunyikan saat screenshot -->
     <div class="export-section" id="exportButtons">
-        <button class="btn-export btn-pdf" id="exportPdfBtn"><i class="fas fa-file-pdf"></i> Simpan sebagai PDF</button>
-        <button class="btn-export btn-jpeg" id="exportJpegBtn"><i class="fas fa-camera"></i> Simpan sebagai JPEG</button>
+        <button class="btn-export btn-save-data" id="saveDataBtn" disabled><i class="fas fa-save"></i> 💾 SAVE Laporan (Data Terisi Semua)</button>
+        <button class="btn-export btn-pdf" id="exportPdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <button class="btn-export btn-jpeg" id="exportJpegBtn"><i class="fas fa-camera"></i> Export JPEG</button>
     </div>
 
     <div class="stats-grid" id="statsContainer"></div>
@@ -329,7 +360,7 @@
             <div style="overflow-x: auto;">
                 <table id="karyawanTable">
                     <thead>
-                        <tr><th>No</th><th>Nama Karyawan</th><th>Akun Instagram</th><th>👍 Like</th><th>💬 Komentar</th><th>🔄 Share/Repost</th><th>🔖 Save</th><th>✨ Total</th></tr>
+                        <tr><th>No</th><th>Nama Karyawan</th><th>Akun Instagram</th><th>👍 Like</th><th>💬 Komentar</th><th>🔄 Share</th><th>🔖 Save</th><th>✨ Total</th></tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
@@ -341,21 +372,22 @@
         <div class="chart-wrapper">
             <div class="section-title" style="margin-left:0"><i class="fas fa-chart-pie"></i> Persentase Jenis Interaksi</div>
             <canvas id="interaksiPieChart" width="400" height="400"></canvas>
-            <div style="margin-top: 12px; font-size:0.7rem; text-align:center;">Update otomatis saat data diubah</div>
-            <hr style="margin: 18px 0 10px; border-color:#f0e2d4;">
-            <div class="section-title" style="margin-left:0"><i class="fas fa-trophy"></i> 🏆 Top 5 Kontributor</div>
-            <div id="top5List" style="display:flex; flex-direction:column; gap:8px;"></div>
+            <div style="margin-top: 8px; font-size:0.7rem; text-align:center;">Update otomatis saat data diubah</div>
+            
+            <hr style="margin: 16px 0 12px; border-color:#f0e2d4;">
+            <div class="section-title" style="margin-left:0"><i class="fas fa-trophy"></i> 🏆 Peringkat Karyawan Teraktif</div>
+            <div id="rankingList" class="ranking-list"></div>
         </div>
     </div>
 
     <!-- RINGKASAN LAPORAN KESELURUHAN -->
     <div class="summary-report">
         <div class="section-title" style="margin-left:0">
-            <i class="fas fa-chart-simple"></i> Ringkasan Laporan Keseluruhan
+            <i class="fas fa-chart-simple"></i> Ringkasan Laporan Keseluruhan (Akumulasi Otomatis)
         </div>
         <div id="summaryReportContainer" class="summary-grid"></div>
         <div class="footer-note" style="text-align:left; margin-top: 1rem;">
-            <i class="fas fa-sync-alt"></i> Seluruh data statistik mengikuti nilai input pada tabel di atas.
+            <i class="fas fa-sync-alt"></i> Seluruh data statistik dan ringkasan akan terakumulasi secara otomatis ketika Anda mengisi/mengubah input interaksi.
         </div>
     </div>
 </div>
@@ -363,7 +395,7 @@
 <script>
     // ======================== DATA KARYAWAN (45 Orang dari File) ========================
     const rawEmployees = [
-        { no:1, name:"Pak Sambas", ig:"sambas8619", hasAccount:true },
+        { no:1, name:"DIYAH", ig:"dyhnovi", hasAccount:true },
         { no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true },
         { no:3, name:"KAMAL", ig:"Mallxyxx", hasAccount:true },
         { no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true },
@@ -423,6 +455,80 @@
     });
 
     let pieChart;
+    let isDataComplete = false;
+
+    // Cek apakah semua karyawan yang memiliki akun sudah diisi (minimal salah satu interaksi > 0 atau semua sudah tersentuh)
+    // Kriteria: semua karyawan aktif memiliki setidaknya 1 interaksi (Like+Komen+Share+Save > 0)
+    function checkDataComplete() {
+        const activeEmployees = employeesData.filter(e => e.hasAccount);
+        const allHaveData = activeEmployees.every(emp => (emp.like + emp.comment + emp.share + emp.save) > 0);
+        const anyDataExist = activeEmployees.some(emp => (emp.like + emp.comment + emp.share + emp.save) > 0);
+        isDataComplete = allHaveData && anyDataExist;
+        const saveBtn = document.getElementById('saveDataBtn');
+        if (saveBtn) {
+            saveBtn.disabled = !isDataComplete;
+            if (isDataComplete) {
+                saveBtn.style.opacity = '1';
+                saveBtn.title = "Simpan laporan ke penyimpanan lokal";
+            } else {
+                saveBtn.style.opacity = '0.6';
+                saveBtn.title = "Isi semua data interaksi karyawan aktif terlebih dahulu";
+            }
+        }
+        return isDataComplete;
+    }
+
+    function showToast(message, isSuccess = true) {
+        const existingToast = document.querySelector('.toast-notif');
+        if (existingToast) existingToast.remove();
+        const toast = document.createElement('div');
+        toast.className = 'toast-notif';
+        toast.style.background = isSuccess ? '#27ae60' : '#e74c3c';
+        toast.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.remove(); }, 3000);
+    }
+
+    // SAVE DATA ke LocalStorage
+    function saveReportToLocal() {
+        if (!isDataComplete) {
+            showToast("⚠️ Data belum lengkap! Isi semua interaksi karyawan aktif terlebih dahulu.", false);
+            return;
+        }
+        const reportData = {
+            savedAt: new Date().toISOString(),
+            employees: employeesData.map(emp => ({
+                no: emp.no, name: emp.name, igAccount: emp.igAccount, hasAccount: emp.hasAccount,
+                like: emp.like, comment: emp.comment, share: emp.share, save: emp.save
+            }))
+        };
+        localStorage.setItem('PawonMbahGito_Report', JSON.stringify(reportData));
+        showToast("✅ Laporan berhasil disimpan ke penyimpanan lokal! Data dapat dipulihkan nanti.", true);
+    }
+
+    // Load data dari LocalStorage jika ada
+    function loadSavedReport() {
+        const saved = localStorage.getItem('PawonMbahGito_Report');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed.employees && parsed.employees.length === employeesData.length) {
+                    for (let i = 0; i < employeesData.length; i++) {
+                        if (employeesData[i].hasAccount) {
+                            employeesData[i].like = parsed.employees[i].like || 0;
+                            employeesData[i].comment = parsed.employees[i].comment || 0;
+                            employeesData[i].share = parsed.employees[i].share || 0;
+                            employeesData[i].save = parsed.employees[i].save || 0;
+                        }
+                    }
+                    showToast("📁 Data tersimpan berhasil dimuat ulang!", true);
+                    refreshAll();
+                    return true;
+                }
+            } catch(e) { console.warn(e); }
+        }
+        return false;
+    }
 
     function computeTotals() {
         let like=0, comment=0, share=0, save=0;
@@ -442,6 +548,7 @@
             <div class="stat-card"><i class="fas fa-chart-line"></i><h3>Total Interaksi</h3><div class="stat-number">${totals.total.toLocaleString()}</div></div>
             <div class="stat-card"><i class="fas fa-user-check"></i><h3>Karyawan Aktif</h3><div class="stat-number">${activeCount} / ${employeesData.length}</div></div>
         `;
+        checkDataComplete();
     }
 
     function renderTable(filterText = "") {
@@ -477,8 +584,6 @@
                 const updateTotal = () => { totalSpan.innerText = employeesData[originalIdx].like + employeesData[originalIdx].comment + employeesData[originalIdx].share + employeesData[originalIdx].save; };
                 updateTotal();
                 row.insertCell(7).appendChild(totalSpan);
-                window._updateTotalCells = window._updateTotalCells || [];
-                window._updateTotalCells[originalIdx] = updateTotal;
             } else {
                 row.insertCell(3).innerHTML = `<span class="no-data">—</span>`;
                 row.insertCell(4).innerHTML = `<span class="no-data">—</span>`;
@@ -500,23 +605,41 @@
         const totals = computeTotals();
         const ctx = document.getElementById('interaksiPieChart').getContext('2d');
         if (pieChart) pieChart.destroy();
-        if (totals.total === 0) { ctx.canvas.parentNode.innerHTML = '<canvas id="interaksiPieChart"></canvas><div style="text-align:center; padding:1rem; font-size:0.8rem;">Isi data interaksi untuk melihat grafik</div>'; return; }
-        pieChart = new Chart(ctx, { type: 'pie', data: { labels: ['👍 Like', '💬 Komentar', '🔄 Share', '🔖 Save'], datasets: [{ data: [totals.like, totals.comment, totals.share, totals.save], backgroundColor: ['#f77737', '#fcaa67', '#4c9f70', '#fdcb6e'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } } });
+        if (totals.total === 0) { 
+            ctx.canvas.parentNode.innerHTML = '<canvas id="interaksiPieChart"></canvas><div style="text-align:center; padding:1rem; font-size:0.8rem;">Isi data interaksi untuk melihat grafik</div>'; 
+            return; 
+        }
+        pieChart = new Chart(ctx, { 
+            type: 'pie', 
+            data: { labels: ['👍 Like', '💬 Komentar', '🔄 Share', '🔖 Save'], 
+            datasets: [{ data: [totals.like, totals.comment, totals.share, totals.save], backgroundColor: ['#f77737', '#fcaa67', '#4c9f70', '#fdcb6e'], borderWidth: 0 }] }, 
+            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } } 
+        });
     }
 
-    function renderTop5() {
+    function renderRanking() {
         const active = employeesData.filter(e => e.hasAccount);
-        const sorted = [...active].sort((a,b) => (b.like+b.comment+b.share+b.save) - (a.like+a.comment+a.share+a.save)).slice(0,5);
-        const container = document.getElementById('top5List');
+        const sorted = [...active].sort((a,b) => (b.like+b.comment+b.share+b.save) - (a.like+a.comment+a.share+a.save));
+        const container = document.getElementById('rankingList');
         container.innerHTML = '';
-        if (sorted.length === 0 || (sorted[0].like === 0 && sorted[0].comment === 0 && sorted[0].share === 0 && sorted[0].save === 0)) {
-            container.innerHTML = '<div class="leaderboard-card" style="justify-content:center;">Belum ada data interaksi</div>'; return;
+        if (sorted.length === 0 || sorted.every(e => e.like+e.comment+e.share+e.save === 0)) {
+            container.innerHTML = '<div style="text-align:center; padding:1rem; color:#b58b6b;">Belum ada data interaksi</div>';
+            return;
         }
-        sorted.forEach((emp, idx) => {
-            const total = emp.like+emp.comment+emp.share+emp.save;
-            const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : (idx+1).toString();
-            container.innerHTML += `<div class="leaderboard-card"><div><strong>${medal}</strong> <strong>${emp.name}</strong><br><span style="font-size:0.65rem;">@${emp.igAccount}</span></div><div><span style="background:#e1cfbc; padding:4px 12px; border-radius:40px; font-weight:800;">${total}</span></div></div>`;
-        });
+        const topN = Math.min(10, sorted.length);
+        for (let i = 0; i < topN; i++) {
+            const emp = sorted[i];
+            const total = emp.like + emp.comment + emp.share + emp.save;
+            let medalClass = ''; let medalIcon = '';
+            if (i === 0) { medalClass = 'medal-gold'; medalIcon = '🥇'; }
+            else if (i === 1) { medalClass = 'medal-silver'; medalIcon = '🥈'; }
+            else if (i === 2) { medalClass = 'medal-bronze'; medalIcon = '🥉'; }
+            else { medalIcon = `${i+1}.`; }
+            const rankingDiv = document.createElement('div');
+            rankingDiv.className = 'ranking-item';
+            rankingDiv.innerHTML = `<div class="ranking-number ${medalClass}">${medalIcon}</div><div class="ranking-name">${emp.name}<br><span style="font-size:0.6rem; color:#a58365;">@${emp.igAccount}</span></div><div class="ranking-score"><i class="fas fa-chart-line"></i> ${total.toLocaleString()}</div>`;
+            container.appendChild(rankingDiv);
+        }
     }
 
     function renderOverallSummary() {
@@ -533,10 +656,14 @@
         const commentPercent = totals.total > 0 ? ((totals.comment/totals.total)*100).toFixed(1) : 0;
         const sharePercent = totals.total > 0 ? ((totals.share/totals.total)*100).toFixed(1) : 0;
         const savePercent = totals.total > 0 ? ((totals.save/totals.total)*100).toFixed(1) : 0;
+        const sortedByTotal = [...activeList].sort((a,b) => (b.like+b.comment+b.share+b.save) - (a.like+a.comment+a.share+a.save));
+        const topPerformer = sortedByTotal.length > 0 ? sortedByTotal[0] : null;
+        const topScore = topPerformer ? (topPerformer.like+topPerformer.comment+topPerformer.share+topPerformer.save) : 0;
+        
         document.getElementById('summaryReportContainer').innerHTML = `
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-line"></i> Statistik Partisipasi</div><div class="insight-value">${totals.total.toLocaleString()}</div><div>Total Interaksi dari ${activeCount} Karyawan Aktif</div><div class="progress-bar-bg" style="margin-top:12px;"><div class="progress-fill" style="width:${likePercent}%"></div></div><div class="stat-percent"><span>👍 Like ${likePercent}%</span><span>💬 Komentar ${commentPercent}%</span><span>🔄 Share ${sharePercent}%</span><span>🔖 Save ${savePercent}%</span></div><div style="margin-top: 12px;"><span class="badge-insight">📊 Rata-rata per karyawan aktif: ${avgInteraction} interaksi</span></div></div>
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-bar"></i> Performa Karyawan</div><div><strong>🏅 High Performers (>400)</strong> : ${highPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(highPerformers/activeCount*100)||0}%; background:#6fbf4c;"></div></div><div><strong>📊 Medium Performers (200-400)</strong> : ${mediumPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(mediumPerformers/activeCount*100)||0}%; background:#f9a26c;"></div></div><div><strong>🌱 Low Performers (1-199)</strong> : ${lowPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(lowPerformers/activeCount*100)||0}%; background:#c5854b;"></div></div><div><strong>⚪ Belum Berinteraksi (0)</strong> : ${zeroInteractors} orang</div><div style="margin-top:8px;"><i class="fas fa-users"></i> Karyawan tanpa akun: ${inactiveCount} orang</div></div>
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-pie"></i> Insight Distribusi</div><div>Jenis interaksi yang paling dominan: <strong>${likePercent >= commentPercent && likePercent >= sharePercent && likePercent >= savePercent ? '👍 Like' : (commentPercent >= sharePercent && commentPercent >= savePercent ? '💬 Komentar' : (sharePercent >= savePercent ? '🔄 Share' : '🔖 Save'))}</strong></div><div style="margin-top: 12px; background:#f7efe6; border-radius: 16px; padding: 10px;"><i class="fas fa-calculator"></i> <strong>Perbandingan:</strong><br>Like : Share = ${totals.like > 0 ? (totals.like/totals.share).toFixed(1) : 0} : 1<br>Save : Comment = ${totals.save > 0 ? (totals.save/totals.comment).toFixed(1) : 0} : 1</div><div style="margin-top: 10px;"><i class="fas fa-chart-simple"></i> Total interaksi akan berubah sesuai input pada tabel.</div></div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-line"></i> Statistik Partisipasi</div><div class="insight-value">${totals.total.toLocaleString()}</div><div>Total Interaksi dari ${activeCount} Karyawan Aktif</div><div class="progress-bar-bg" style="margin-top:12px;"><div class="progress-fill" style="width:${likePercent}%"></div></div><div class="stat-percent"><span>👍 Like ${likePercent}%</span><span>💬 Komentar ${commentPercent}%</span><span>🔄 Share ${sharePercent}%</span><span>🔖 Save ${savePercent}%</span></div><div style="margin-top: 12px;"><span class="badge-insight">📊 Rata-rata per karyawan aktif: ${avgInteraction} interaksi</span></div>${topPerformer ? `<div style="margin-top: 8px;"><span class="badge-insight"><i class="fas fa-crown"></i> Peringkat 1: ${topPerformer.name} (${topScore} interaksi)</span></div>` : ''}</div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-bar"></i> Distribusi Performa Karyawan</div><div><strong>🏅 High Performers (>400)</strong> : ${highPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(highPerformers/activeCount*100)||0}%; background:#6fbf4c;"></div></div><div><strong>📊 Medium Performers (200-400)</strong> : ${mediumPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(mediumPerformers/activeCount*100)||0}%; background:#f9a26c;"></div></div><div><strong>🌱 Low Performers (1-199)</strong> : ${lowPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(lowPerformers/activeCount*100)||0}%; background:#c5854b;"></div></div><div><strong>⚪ Belum Berinteraksi (0)</strong> : ${zeroInteractors} orang</div><div style="margin-top:8px;"><i class="fas fa-users"></i> Karyawan tanpa akun: ${inactiveCount} orang</div></div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-pie"></i> Akumulasi & Insight</div><div><strong>Total Like:</strong> ${totals.like.toLocaleString()} | <strong>Total Komentar:</strong> ${totals.comment.toLocaleString()}</div><div><strong>Total Share:</strong> ${totals.share.toLocaleString()} | <strong>Total Save:</strong> ${totals.save.toLocaleString()}</div><div style="margin-top: 10px; background:#f7efe6; border-radius: 16px; padding: 10px;"><i class="fas fa-calculator"></i> <strong>Perbandingan Interaksi:</strong><br>Like : Share = ${totals.share > 0 ? (totals.like/totals.share).toFixed(1) : totals.like} : 1<br>Save : Comment = ${totals.comment > 0 ? (totals.save/totals.comment).toFixed(1) : totals.save} : 1</div><div style="margin-top: 10px;"><i class="fas fa-chart-simple"></i> Jenis interaksi paling dominan: <strong>${likePercent >= commentPercent && likePercent >= sharePercent && likePercent >= savePercent ? '👍 Like' : (commentPercent >= sharePercent && commentPercent >= savePercent ? '💬 Komentar' : (sharePercent >= savePercent ? '🔄 Share' : '🔖 Save'))}</strong></div></div>
         `;
     }
 
@@ -545,12 +672,19 @@
         const searchVal = document.getElementById('searchKaryawan')?.value || "";
         renderTable(searchVal);
         renderPieChart();
-        renderTop5();
+        renderRanking();
         renderOverallSummary();
+        checkDataComplete();
     }
 
     window.filterTable = () => { renderTable(document.getElementById('searchKaryawan').value); };
-    window.resetAllInteractions = function() { employeesData.forEach(emp => { if (emp.hasAccount) { emp.like = 0; emp.comment = 0; emp.share = 0; emp.save = 0; } }); refreshAll(); };
+    window.resetAllInteractions = function() { 
+        if (confirm("Reset akan menghapus semua data interaksi yang sudah diisi. Lanjutkan?")) {
+            employeesData.forEach(emp => { if (emp.hasAccount) { emp.like = 0; emp.comment = 0; emp.share = 0; emp.save = 0; } }); 
+            refreshAll();
+            showToast("Semua data interaksi telah direset", true);
+        }
+    };
 
     // ======================== EKSPOR PDF & JPEG ========================
     async function exportAsPDF() {
@@ -562,7 +696,7 @@
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const imgWidth = 210; // A4 width in mm
+            const imgWidth = 210;
             const pageHeight = 297;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
             let position = 0;
@@ -577,7 +711,8 @@
                 }
             }
             pdf.save(`Laporan_Interaksi_PawonMbahGito_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.pdf`);
-        } catch (err) { console.error(err); alert('Gagal export PDF'); }
+            showToast("PDF berhasil diekspor!", true);
+        } catch (err) { console.error(err); showToast("Gagal export PDF", false); }
         finally { buttons.classList.remove('export-hide'); }
     }
     
@@ -591,14 +726,21 @@
             link.download = `Laporan_Interaksi_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.jpeg`;
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.click();
-        } catch (err) { console.error(err); alert('Gagal export JPEG'); }
+            showToast("JPEG berhasil diekspor!", true);
+        } catch (err) { console.error(err); showToast("Gagal export JPEG", false); }
         finally { buttons.classList.remove('export-hide'); }
     }
     
     document.getElementById('exportPdfBtn').addEventListener('click', exportAsPDF);
     document.getElementById('exportJpegBtn').addEventListener('click', exportAsJPEG);
+    document.getElementById('saveDataBtn').addEventListener('click', saveReportToLocal);
     
-    refreshAll();
+    // Load data yang tersimpan saat pertama kali
+    if (!loadSavedReport()) {
+        refreshAll();
+    } else {
+        refreshAll();
+    }
 </script>
 </body>
 </html>
