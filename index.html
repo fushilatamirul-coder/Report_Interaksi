@@ -9,29 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- html2canvas & jspdf untuk export -->
+    <!-- html2canvas & jspdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #faf6f0 0%, #f2ebe2 100%);
             color: #2c241e;
             padding: 2rem 1.5rem;
         }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        /* Header */
+        .container { max-width: 1600px; margin: 0 auto; }
         .brand-header {
             display: flex;
             justify-content: space-between;
@@ -50,11 +39,7 @@
             color: transparent;
             letter-spacing: -0.3px;
         }
-        .title-section p {
-            color: #7e5a41;
-            font-weight: 500;
-            margin-top: 6px;
-        }
+        .title-section p { color: #7e5a41; font-weight: 500; margin-top: 6px; }
         .date-badge {
             background: #fff2e4;
             padding: 0.5rem 1.2rem;
@@ -65,15 +50,15 @@
         }
         .date-badge i { margin-right: 8px; color: #b97f4b; }
 
-        /* Export Buttons */
-        .export-section {
+        /* Export & Save Buttons */
+        .action-section {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
-        .btn-export {
+        .btn-action {
             padding: 10px 24px;
             border: none;
             border-radius: 50px;
@@ -86,30 +71,13 @@
             gap: 10px;
             font-family: 'Inter', sans-serif;
         }
-        .btn-pdf {
-            background: #e74c3c;
-            color: white;
-            box-shadow: 0 4px 10px rgba(231,76,60,0.3);
-        }
+        .btn-pdf { background: #e74c3c; color: white; box-shadow: 0 4px 10px rgba(231,76,60,0.3); }
         .btn-pdf:hover { background: #c0392b; transform: translateY(-2px); }
-        .btn-jpeg {
-            background: #2c3e50;
-            color: white;
-            box-shadow: 0 4px 10px rgba(44,62,80,0.3);
-        }
+        .btn-jpeg { background: #2c3e50; color: white; box-shadow: 0 4px 10px rgba(44,62,80,0.3); }
         .btn-jpeg:hover { background: #1a2632; transform: translateY(-2px); }
-        .btn-save-data {
-            background: #27ae60;
-            color: white;
-            box-shadow: 0 4px 10px rgba(39,174,96,0.3);
-        }
+        .btn-save-data { background: #27ae60; color: white; box-shadow: 0 4px 10px rgba(39,174,96,0.3); }
         .btn-save-data:hover { background: #219a52; transform: translateY(-2px); }
-        .btn-save-data:disabled {
-            background: #95a5a6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
+        .btn-save-data:disabled { background: #95a5a6; cursor: not-allowed; transform: none; }
 
         .stats-grid {
             display: flex;
@@ -123,10 +91,9 @@
             min-width: 150px;
             border-radius: 28px;
             padding: 1rem 0.8rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
             text-align: center;
-            transition: transform 0.2s;
             border: 1px solid #f3e5d8;
+            transition: transform 0.2s;
         }
         .stat-card:hover { transform: translateY(-3px); background: #fffdf9; }
         .stat-card i { font-size: 1.8rem; color: #c5854b; margin-bottom: 0.4rem; }
@@ -170,11 +137,7 @@
             border-left: 5px solid #c5854b;
             padding-left: 15px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         th {
             text-align: left;
             padding: 0.9rem 0.6rem 0.7rem 1rem;
@@ -185,11 +148,7 @@
             position: sticky;
             top: 0;
         }
-        td {
-            padding: 0.75rem 0.6rem 0.75rem 1rem;
-            border-bottom: 1px solid #f5e8de;
-            vertical-align: middle;
-        }
+        td { padding: 0.75rem 0.6rem 0.75rem 1rem; border-bottom: 1px solid #f5e8de; vertical-align: middle; }
         .karyawan-nama { font-weight: 700; color: #4e2e1b; }
         .akun-ig {
             font-family: monospace;
@@ -200,11 +159,7 @@
             font-size: 0.75rem;
             font-weight: 500;
         }
-        .akun-tidak-ada {
-            background: #f0e0d4;
-            color: #a05e3a;
-            font-style: italic;
-        }
+        .akun-tidak-ada { background: #f0e0d4; color: #a05e3a; font-style: italic; }
         .interaction-input {
             width: 80px;
             padding: 6px 8px;
@@ -215,28 +170,16 @@
             font-weight: 600;
             font-family: 'Inter', monospace;
             background: white;
-            transition: 0.1s;
         }
-        .interaction-input:focus {
-            outline: none;
-            border-color: #a5673f;
-            box-shadow: 0 0 0 2px rgba(165,103,63,0.2);
-        }
-        .no-data {
-            color: #b58b6b;
-            font-style: italic;
-            font-size: 0.75rem;
-        }
+        .interaction-input:focus { outline: none; border-color: #a5673f; box-shadow: 0 0 0 2px rgba(165,103,63,0.2); }
+        .no-data { color: #b58b6b; font-style: italic; font-size: 0.75rem; }
         .total-cell { font-weight: 800; color: #b1622c; background: #fff4ec; border-radius: 30px; display: inline-block; padding: 4px 12px; }
         .footer-note { text-align: right; font-size: 0.7rem; color: #a58365; margin-top: 1rem; padding: 0 1rem 1rem 0; }
         canvas { max-height: 220px; width: 100%; }
         @media (max-width: 780px) { body { padding: 1rem; } th, td { font-size: 0.7rem; } .interaction-input { width: 60px; font-size: 0.7rem; } }
         
-        .ranking-list {
-            margin-top: 0.5rem;
-            max-height: 280px;
-            overflow-y: auto;
-        }
+        /* Ranking & Highest Performer */
+        .ranking-list { margin-top: 0.5rem; max-height: 280px; overflow-y: auto; }
         .ranking-item {
             display: flex;
             align-items: center;
@@ -263,7 +206,17 @@
         .medal-gold { background: #FFD700; color: #5c3a22; }
         .medal-silver { background: #C0C0C0; color: #2c241e; }
         .medal-bronze { background: #CD7F32; color: white; }
-
+        .highest-card {
+            background: linear-gradient(135deg, #fff8e7, #fff2e0);
+            border: 2px solid #f3b33d;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .highest-name { font-size: 1.3rem; font-weight: 800; color: #b1622c; }
+        .highest-score { font-size: 2rem; font-weight: 800; color: #f39c12; margin: 5px 0; }
+        
         .summary-report {
             background: white;
             border-radius: 28px;
@@ -300,47 +253,31 @@
         .badge-insight { background: #e7daca; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
         .stat-percent { font-size: 0.7rem; display: flex; justify-content: space-between; margin-top: 6px; }
         .export-hide { display: none !important; }
-        .btn-reset { background: #e7d8ca; border: none; padding: 6px 14px; border-radius: 40px; font-weight: 600; font-size: 0.7rem; cursor: pointer; transition: 0.2s; }
-        .btn-reset:hover { background: #d6c2ae; }
+        .btn-reset { background: #e7d8ca; border: none; padding: 6px 14px; border-radius: 40px; font-weight: 600; font-size: 0.7rem; cursor: pointer; }
         .search-box { margin: 0 1rem 1rem auto; display: flex; justify-content: flex-end; gap: 8px; }
-        .search-box input { padding: 8px 14px; border-radius: 50px; border: 1px solid #e7d8cb; width: 220px; font-family: 'Inter', sans-serif; background: white; }
-        
-        /* Toast Notification */
+        .search-box input { padding: 8px 14px; border-radius: 50px; border: 1px solid #e7d8cb; width: 220px; font-family: 'Inter', sans-serif; }
         .toast-notif {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #27ae60;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: fixed; bottom: 30px; right: 30px; background: #27ae60; color: white;
+            padding: 12px 24px; border-radius: 50px; font-weight: 600; z-index: 1000;
             animation: slideIn 0.3s ease;
         }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
 </head>
 <body>
 <div class="container" id="reportContainer">
     <div class="brand-header">
         <div class="title-section">
-            <h1><i class="fab fa-instagram" style="color:#c5854b; margin-right: 8px;"></i> Pawon Mbah Gito · Laporan Partisipasi Karyawan</h1>
-            <p>📊 Input interaksi Like, Komentar, Share/Repost, Save — Total & Grafik Otomatis Terupdate</p>
+            <h1><i class="fab fa-instagram" style="color:#c5854b;"></i> Pawon Mbah Gito · Laporan Partisipasi Karyawan</h1>
+            <p>📊 Input interaksi Like, Komentar, Share, Save — Total & Peringkat Tertinggi Otomatis</p>
         </div>
-        <div class="date-badge">
-            <i class="far fa-calendar-alt"></i> Periode: 1 - 30 April 2026
-        </div>
+        <div class="date-badge"><i class="far fa-calendar-alt"></i> Periode: 1 - 30 April 2026</div>
     </div>
 
-    <div class="export-section" id="exportButtons">
-        <button class="btn-export btn-save-data" id="saveDataBtn" disabled><i class="fas fa-save"></i> 💾 SAVE Laporan (Data Terisi Semua)</button>
-        <button class="btn-export btn-pdf" id="exportPdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
-        <button class="btn-export btn-jpeg" id="exportJpegBtn"><i class="fas fa-camera"></i> Export JPEG</button>
+    <div class="action-section" id="actionButtons">
+        <button class="btn-action btn-save-data" id="saveDataBtn" disabled><i class="fas fa-save"></i> 💾 Simpan Laporan</button>
+        <button class="btn-action btn-pdf" id="exportPdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <button class="btn-action btn-jpeg" id="exportJpegBtn"><i class="fas fa-camera"></i> Export JPEG</button>
     </div>
 
     <div class="stats-grid" id="statsContainer"></div>
@@ -349,186 +286,81 @@
         <div class="table-wrapper">
             <div class="section-title">
                 <i class="fas fa-users"></i> Daftar Karyawan & Input Interaksi
-                <span style="margin-left:auto;">
-                    <button class="btn-reset" id="resetBtn" onclick="resetAllInteractions()"><i class="fas fa-undo-alt"></i> Reset Semua</button>
-                </span>
+                <span style="margin-left:auto;"><button class="btn-reset" id="resetBtn" onclick="resetAllInteractions()"><i class="fas fa-undo-alt"></i> Reset Semua</button></span>
             </div>
             <div class="search-box">
-                <input type="text" id="searchKaryawan" placeholder="Cari nama atau akun IG..." onkeyup="filterTable()">
+                <input type="text" id="searchKaryawan" placeholder="Cari nama atau akun..." onkeyup="filterTable()">
                 <i class="fas fa-filter" style="color:#b97f4b;"></i>
             </div>
             <div style="overflow-x: auto;">
                 <table id="karyawanTable">
-                    <thead>
-                        <tr><th>No</th><th>Nama Karyawan</th><th>Akun Instagram</th><th>👍 Like</th><th>💬 Komentar</th><th>🔄 Share</th><th>🔖 Save</th><th>✨ Total</th></tr>
-                    </thead>
+                    <thead><tr><th>No</th><th>Nama</th><th>Akun IG</th><th>👍 Like</th><th>💬 Komentar</th><th>🔄 Share</th><th>🔖 Save</th><th>✨ Total</th></tr></thead>
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
-            <div class="footer-note">
-                <i class="fas fa-edit"></i> Isi angka pada kolom Like, Komentar, Share, Save — hasil keseluruhan akan langsung berubah otomatis.
-            </div>
+            <div class="footer-note"><i class="fas fa-edit"></i> Isi angka pada kolom interaksi — hasil dan peringkat tertinggi otomatis berubah.</div>
         </div>
         <div class="chart-wrapper">
-            <div class="section-title" style="margin-left:0"><i class="fas fa-chart-pie"></i> Persentase Jenis Interaksi</div>
-            <canvas id="interaksiPieChart" width="400" height="400"></canvas>
-            <div style="margin-top: 8px; font-size:0.7rem; text-align:center;">Update otomatis saat data diubah</div>
+            <div class="section-title"><i class="fas fa-chart-pie"></i> Persentase Jenis Interaksi</div>
+            <canvas id="interaksiPieChart"></canvas>
+            <hr style="margin: 16px 0 12px;">
             
-            <hr style="margin: 16px 0 12px; border-color:#f0e2d4;">
-            <div class="section-title" style="margin-left:0"><i class="fas fa-trophy"></i> 🏆 Peringkat Karyawan Teraktif</div>
+            <!-- Fitur Karyawan dengan Interaksi TERTINGGI -->
+            <div class="section-title"><i class="fas fa-crown"></i> 👑 Karyawan dengan Interaksi Tertinggi</div>
+            <div id="highestPerformerCard" class="highest-card">
+                <i class="fas fa-star" style="color:#f39c12;"></i> <span style="font-weight:600;">Belum ada data</span>
+            </div>
+            
+            <div class="section-title"><i class="fas fa-trophy"></i> 🏆 Peringkat Karyawan Teraktif</div>
             <div id="rankingList" class="ranking-list"></div>
         </div>
     </div>
 
-    <!-- RINGKASAN LAPORAN KESELURUHAN -->
     <div class="summary-report">
-        <div class="section-title" style="margin-left:0">
-            <i class="fas fa-chart-simple"></i> Ringkasan Laporan Keseluruhan (Akumulasi Otomatis)
-        </div>
+        <div class="section-title"><i class="fas fa-chart-simple"></i> Ringkasan Laporan Keseluruhan</div>
         <div id="summaryReportContainer" class="summary-grid"></div>
-        <div class="footer-note" style="text-align:left; margin-top: 1rem;">
-            <i class="fas fa-sync-alt"></i> Seluruh data statistik dan ringkasan akan terakumulasi secara otomatis ketika Anda mengisi/mengubah input interaksi.
-        </div>
+        <div class="footer-note"><i class="fas fa-sync-alt"></i> Semua data otomatis terakumulasi saat input diubah.</div>
     </div>
 </div>
 
 <script>
-    // ======================== DATA KARYAWAN (45 Orang dari File) ========================
+    // ======================== DATA KARYAWAN (45) ========================
     const rawEmployees = [
-        { no:1, name:"DIYAH", ig:"dyhnovi", hasAccount:true },
-        { no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true },
-        { no:3, name:"KAMAL", ig:"Mallxyxx", hasAccount:true },
-        { no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true },
-        { no:5, name:"AGUNG", ig:"Agunghasanudin_5", hasAccount:true },
-        { no:6, name:"BAYU", ig:"aazmibayu", hasAccount:true },
-        { no:7, name:"ROHMAN", ig:"Fthr.rohmann", hasAccount:true },
-        { no:8, name:"PUTRI", ig:"Ptrichntka18_", hasAccount:true },
-        { no:9, name:"SOFAR", ig:"madsosio", hasAccount:true },
-        { no:10, name:"AWLIYA", ig:"Matchamin_t", hasAccount:true },
-        { no:11, name:"JAELANI", ig:"", hasAccount:false },
-        { no:12, name:"LISA", ig:"Lisallty_", hasAccount:true },
-        { no:13, name:"RAFI", ig:"Mrafii12_", hasAccount:true },
-        { no:14, name:"RISKA", ig:"Rskendh", hasAccount:true },
-        { no:15, name:"FATHIYA", ig:"Fathiyarn_", hasAccount:true },
-        { no:16, name:"ROSA", ig:"Hy.rosaaa", hasAccount:true },
-        { no:17, name:"SIPA", ig:"Sipak.khoerunisa", hasAccount:true },
-        { no:18, name:"WANTI", ig:"Sriwnth", hasAccount:true },
-        { no:19, name:"YUDHA", ig:"dhaakach", hasAccount:true },
-        { no:20, name:"SEPTIAN", ig:"sptnchydi", hasAccount:true },
-        { no:21, name:"DONNY", ig:"Donnird12", hasAccount:true },
-        { no:22, name:"ANIS", ig:"Anissalkhkmh_", hasAccount:true },
-        { no:23, name:"AXL", ig:"axllsamm", hasAccount:true },
-        { no:24, name:"SOLIHIN", ig:"Maad11_s", hasAccount:true },
-        { no:25, name:"FATHUL", ig:"fthuuulzmy", hasAccount:true },
-        { no:26, name:"SHIFA", ig:"Shifamirazaq.cicip", hasAccount:true },
-        { no:27, name:"ARIF", ig:"Arif_sunandra", hasAccount:true },
-        { no:28, name:"HERU", ig:"", hasAccount:false },
-        { no:29, name:"ADHITYA", ig:"Adhityapril_", hasAccount:true },
-        { no:30, name:"AMIR", ig:"Amirul_fushilat", hasAccount:true },
-        { no:31, name:"ERMAWAN", ig:"Ermawantrisetyadi", hasAccount:true },
-        { no:32, name:"MAHESA", ig:"mahesarendraindra", hasAccount:true },
-        { no:33, name:"ABIDIN", ig:"Abidin_912", hasAccount:true },
-        { no:34, name:"BU ANIS", ig:"Aniest_87", hasAccount:true },
-        { no:35, name:"BU SRI", ig:"", hasAccount:false },
-        { no:36, name:"BU KENUK", ig:"Rudi_hartanti", hasAccount:true },
-        { no:37, name:"BU NOVI", ig:"", hasAccount:false },
-        { no:38, name:"BU IDA", ig:"Idayani3534", hasAccount:true },
-        { no:39, name:"BU SUKAP", ig:"", hasAccount:false },
-        { no:40, name:"BU TUTUT", ig:"", hasAccount:false },
-        { no:41, name:"PAK SLAMET", ig:"", hasAccount:false },
-        { no:42, name:"PAK SUPRI", ig:"", hasAccount:false },
-        { no:43, name:"PAK TUMIRAN", ig:"", hasAccount:false },
-        { no:44, name:"PAK TUGIMAN", ig:"", hasAccount:false },
+        { no:1, name:"DIYAH", ig:"dyhnovi", hasAccount:true }, { no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true },
+        { no:3, name:"KAMAL", ig:"Mallxyxx", hasAccount:true }, { no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true },
+        { no:5, name:"AGUNG", ig:"Agunghasanudin_5", hasAccount:true }, { no:6, name:"BAYU", ig:"aazmibayu", hasAccount:true },
+        { no:7, name:"ROHMAN", ig:"Fthr.rohmann", hasAccount:true }, { no:8, name:"PUTRI", ig:"Ptrichntka18_", hasAccount:true },
+        { no:9, name:"SOFAR", ig:"madsosio", hasAccount:true }, { no:10, name:"AWLIYA", ig:"Matchamin_t", hasAccount:true },
+        { no:11, name:"JAELANI", ig:"", hasAccount:false }, { no:12, name:"LISA", ig:"Lisallty_", hasAccount:true },
+        { no:13, name:"RAFI", ig:"Mrafii12_", hasAccount:true }, { no:14, name:"RISKA", ig:"Rskendh", hasAccount:true },
+        { no:15, name:"FATHIYA", ig:"Fathiyarn_", hasAccount:true }, { no:16, name:"ROSA", ig:"Hy.rosaaa", hasAccount:true },
+        { no:17, name:"SIPA", ig:"Sipak.khoerunisa", hasAccount:true }, { no:18, name:"WANTI", ig:"Sriwnth", hasAccount:true },
+        { no:19, name:"YUDHA", ig:"dhaakach", hasAccount:true }, { no:20, name:"SEPTIAN", ig:"sptnchydi", hasAccount:true },
+        { no:21, name:"DONNY", ig:"Donnird12", hasAccount:true }, { no:22, name:"ANIS", ig:"Anissalkhkmh_", hasAccount:true },
+        { no:23, name:"AXL", ig:"axllsamm", hasAccount:true }, { no:24, name:"SOLIHIN", ig:"Maad11_s", hasAccount:true },
+        { no:25, name:"FATHUL", ig:"fthuuulzmy", hasAccount:true }, { no:26, name:"SHIFA", ig:"Shifamirazaq.cicip", hasAccount:true },
+        { no:27, name:"ARIF", ig:"Arif_sunandra", hasAccount:true }, { no:28, name:"HERU", ig:"", hasAccount:false },
+        { no:29, name:"ADHITYA", ig:"Adhityapril_", hasAccount:true }, { no:30, name:"AMIR", ig:"Amirul_fushilat", hasAccount:true },
+        { no:31, name:"ERMAWAN", ig:"Ermawantrisetyadi", hasAccount:true }, { no:32, name:"MAHESA", ig:"mahesarendraindra", hasAccount:true },
+        { no:33, name:"ABIDIN", ig:"Abidin_912", hasAccount:true }, { no:34, name:"BU ANIS", ig:"Aniest_87", hasAccount:true },
+        { no:35, name:"BU SRI", ig:"", hasAccount:false }, { no:36, name:"BU KENUK", ig:"Rudi_hartanti", hasAccount:true },
+        { no:37, name:"BU NOVI", ig:"", hasAccount:false }, { no:38, name:"BU IDA", ig:"Idayani3534", hasAccount:true },
+        { no:39, name:"BU SUKAP", ig:"", hasAccount:false }, { no:40, name:"BU TUTUT", ig:"", hasAccount:false },
+        { no:41, name:"PAK SLAMET", ig:"", hasAccount:false }, { no:42, name:"PAK SUPRI", ig:"", hasAccount:false },
+        { no:43, name:"PAK TUMIRAN", ig:"", hasAccount:false }, { no:44, name:"PAK TUGIMAN", ig:"", hasAccount:false },
         { no:45, name:"PAK BAGYO", ig:"", hasAccount:false }
     ];
 
     let employeesData = [];
     rawEmployees.forEach(emp => {
         if (emp.hasAccount) {
-            employeesData.push({
-                no: emp.no, name: emp.name, igAccount: emp.ig, hasAccount: true,
-                like: 0, comment: 0, share: 0, save: 0
-            });
+            employeesData.push({ no: emp.no, name: emp.name, igAccount: emp.ig, hasAccount: true, like: 0, comment: 0, share: 0, save: 0 });
         } else {
             employeesData.push({ no: emp.no, name: emp.name, igAccount: null, hasAccount: false, like: 0, comment: 0, share: 0, save: 0 });
         }
     });
 
     let pieChart;
-    let isDataComplete = false;
-
-    // Cek apakah semua karyawan yang memiliki akun sudah diisi (minimal salah satu interaksi > 0 atau semua sudah tersentuh)
-    // Kriteria: semua karyawan aktif memiliki setidaknya 1 interaksi (Like+Komen+Share+Save > 0)
-    function checkDataComplete() {
-        const activeEmployees = employeesData.filter(e => e.hasAccount);
-        const allHaveData = activeEmployees.every(emp => (emp.like + emp.comment + emp.share + emp.save) > 0);
-        const anyDataExist = activeEmployees.some(emp => (emp.like + emp.comment + emp.share + emp.save) > 0);
-        isDataComplete = allHaveData && anyDataExist;
-        const saveBtn = document.getElementById('saveDataBtn');
-        if (saveBtn) {
-            saveBtn.disabled = !isDataComplete;
-            if (isDataComplete) {
-                saveBtn.style.opacity = '1';
-                saveBtn.title = "Simpan laporan ke penyimpanan lokal";
-            } else {
-                saveBtn.style.opacity = '0.6';
-                saveBtn.title = "Isi semua data interaksi karyawan aktif terlebih dahulu";
-            }
-        }
-        return isDataComplete;
-    }
-
-    function showToast(message, isSuccess = true) {
-        const existingToast = document.querySelector('.toast-notif');
-        if (existingToast) existingToast.remove();
-        const toast = document.createElement('div');
-        toast.className = 'toast-notif';
-        toast.style.background = isSuccess ? '#27ae60' : '#e74c3c';
-        toast.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-        document.body.appendChild(toast);
-        setTimeout(() => { toast.remove(); }, 3000);
-    }
-
-    // SAVE DATA ke LocalStorage
-    function saveReportToLocal() {
-        if (!isDataComplete) {
-            showToast("⚠️ Data belum lengkap! Isi semua interaksi karyawan aktif terlebih dahulu.", false);
-            return;
-        }
-        const reportData = {
-            savedAt: new Date().toISOString(),
-            employees: employeesData.map(emp => ({
-                no: emp.no, name: emp.name, igAccount: emp.igAccount, hasAccount: emp.hasAccount,
-                like: emp.like, comment: emp.comment, share: emp.share, save: emp.save
-            }))
-        };
-        localStorage.setItem('PawonMbahGito_Report', JSON.stringify(reportData));
-        showToast("✅ Laporan berhasil disimpan ke penyimpanan lokal! Data dapat dipulihkan nanti.", true);
-    }
-
-    // Load data dari LocalStorage jika ada
-    function loadSavedReport() {
-        const saved = localStorage.getItem('PawonMbahGito_Report');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed.employees && parsed.employees.length === employeesData.length) {
-                    for (let i = 0; i < employeesData.length; i++) {
-                        if (employeesData[i].hasAccount) {
-                            employeesData[i].like = parsed.employees[i].like || 0;
-                            employeesData[i].comment = parsed.employees[i].comment || 0;
-                            employeesData[i].share = parsed.employees[i].share || 0;
-                            employeesData[i].save = parsed.employees[i].save || 0;
-                        }
-                    }
-                    showToast("📁 Data tersimpan berhasil dimuat ulang!", true);
-                    refreshAll();
-                    return true;
-                }
-            } catch(e) { console.warn(e); }
-        }
-        return false;
-    }
 
     function computeTotals() {
         let like=0, comment=0, share=0, save=0;
@@ -536,7 +368,36 @@
         return { like, comment, share, save, total: like+comment+share+save };
     }
     function getActiveCount() { return employeesData.filter(e => e.hasAccount).length; }
-    
+
+    // Hitung karyawan dengan interaksi TERTINGGI
+    function getHighestPerformer() {
+        const active = employeesData.filter(e => e.hasAccount);
+        if (active.length === 0) return null;
+        let highest = active[0];
+        let maxTotal = highest.like + highest.comment + highest.share + highest.save;
+        for (let i = 1; i < active.length; i++) {
+            const total = active[i].like + active[i].comment + active[i].share + active[i].save;
+            if (total > maxTotal) { maxTotal = total; highest = active[i]; }
+        }
+        return { ...highest, total: maxTotal };
+    }
+
+    function renderHighestPerformer() {
+        const highest = getHighestPerformer();
+        const container = document.getElementById('highestPerformerCard');
+        if (!highest || highest.total === 0) {
+            container.innerHTML = `<i class="fas fa-star" style="color:#f39c12;"></i> <span style="font-weight:600;">Belum ada data interaksi</span>`;
+            return;
+        }
+        container.innerHTML = `
+            <i class="fas fa-crown" style="color:#f1c40f; font-size:1.5rem;"></i>
+            <div class="highest-name">🏆 ${highest.name}</div>
+            <div class="highest-score">${highest.total.toLocaleString()} total interaksi</div>
+            <div style="font-size:0.7rem; color:#a58365;">@${highest.igAccount}</div>
+            <div style="margin-top:5px;"><span class="badge-insight">👍 ${highest.like} · 💬 ${highest.comment} · 🔄 ${highest.share} · 🔖 ${highest.save}</span></div>
+        `;
+    }
+
     function renderStats() {
         const totals = computeTotals();
         const activeCount = getActiveCount();
@@ -551,11 +412,18 @@
         checkDataComplete();
     }
 
+    function checkDataComplete() {
+        const active = employeesData.filter(e => e.hasAccount);
+        const allHaveData = active.length > 0 && active.every(emp => (emp.like + emp.comment + emp.share + emp.save) > 0);
+        const saveBtn = document.getElementById('saveDataBtn');
+        if (saveBtn) { saveBtn.disabled = !allHaveData; }
+    }
+
     function renderTable(filterText = "") {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = "";
         const filtered = employeesData.filter(emp => emp.name.toLowerCase().includes(filterText.toLowerCase()) || (emp.igAccount && emp.igAccount.toLowerCase().includes(filterText.toLowerCase())));
-        filtered.forEach((emp, idx) => {
+        filtered.forEach(emp => {
             const originalIdx = employeesData.findIndex(e => e.no === emp.no && e.name === emp.name);
             const row = tbody.insertRow();
             row.insertCell(0).innerHTML = emp.no;
@@ -564,22 +432,14 @@
             else row.insertCell(2).innerHTML = `<span class="akun-ig akun-tidak-ada"><i class="fas fa-ban"></i> Tidak memiliki akun</span>`;
             
             if (emp.hasAccount) {
-                const likeInput = document.createElement('input'); likeInput.type = 'number'; likeInput.value = emp.like; likeInput.min = 0; likeInput.className = 'interaction-input';
-                likeInput.addEventListener('input', (e) => { updateValue(originalIdx, 'like', parseInt(e.target.value) || 0); });
-                row.insertCell(3).appendChild(likeInput);
-                
-                const commentInput = document.createElement('input'); commentInput.type = 'number'; commentInput.value = emp.comment; commentInput.min = 0; commentInput.className = 'interaction-input';
-                commentInput.addEventListener('input', (e) => { updateValue(originalIdx, 'comment', parseInt(e.target.value) || 0); });
-                row.insertCell(4).appendChild(commentInput);
-                
-                const shareInput = document.createElement('input'); shareInput.type = 'number'; shareInput.value = emp.share; shareInput.min = 0; shareInput.className = 'interaction-input';
-                shareInput.addEventListener('input', (e) => { updateValue(originalIdx, 'share', parseInt(e.target.value) || 0); });
-                row.insertCell(5).appendChild(shareInput);
-                
-                const saveInput = document.createElement('input'); saveInput.type = 'number'; saveInput.value = emp.save; saveInput.min = 0; saveInput.className = 'interaction-input';
-                saveInput.addEventListener('input', (e) => { updateValue(originalIdx, 'save', parseInt(e.target.value) || 0); });
-                row.insertCell(6).appendChild(saveInput);
-                
+                const likeInp = createInput(emp.like, (val) => updateValue(originalIdx, 'like', val));
+                row.insertCell(3).appendChild(likeInp);
+                const commentInp = createInput(emp.comment, (val) => updateValue(originalIdx, 'comment', val));
+                row.insertCell(4).appendChild(commentInp);
+                const shareInp = createInput(emp.share, (val) => updateValue(originalIdx, 'share', val));
+                row.insertCell(5).appendChild(shareInp);
+                const saveInp = createInput(emp.save, (val) => updateValue(originalIdx, 'save', val));
+                row.insertCell(6).appendChild(saveInp);
                 const totalSpan = document.createElement('strong'); totalSpan.className = 'total-cell';
                 const updateTotal = () => { totalSpan.innerText = employeesData[originalIdx].like + employeesData[originalIdx].comment + employeesData[originalIdx].share + employeesData[originalIdx].save; };
                 updateTotal();
@@ -593,28 +453,30 @@
             }
         });
     }
-    
-    function updateValue(idx, field, value) {
-        if (employeesData[idx][field] !== value) {
-            employeesData[idx][field] = value;
+
+    function createInput(value, onChange) {
+        const input = document.createElement('input');
+        input.type = 'number'; input.value = value; input.min = 0; input.className = 'interaction-input';
+        input.addEventListener('input', (e) => onChange(parseInt(e.target.value) || 0));
+        return input;
+    }
+
+    function updateValue(idx, field, val) {
+        if (employeesData[idx][field] !== val) {
+            employeesData[idx][field] = val;
             refreshAll();
         }
     }
-    
+
     function renderPieChart() {
         const totals = computeTotals();
         const ctx = document.getElementById('interaksiPieChart').getContext('2d');
         if (pieChart) pieChart.destroy();
-        if (totals.total === 0) { 
-            ctx.canvas.parentNode.innerHTML = '<canvas id="interaksiPieChart"></canvas><div style="text-align:center; padding:1rem; font-size:0.8rem;">Isi data interaksi untuk melihat grafik</div>'; 
-            return; 
+        if (totals.total === 0) {
+            ctx.canvas.parentNode.innerHTML = '<canvas id="interaksiPieChart"></canvas><div style="text-align:center; padding:1rem;">Isi data interaksi</div>';
+            return;
         }
-        pieChart = new Chart(ctx, { 
-            type: 'pie', 
-            data: { labels: ['👍 Like', '💬 Komentar', '🔄 Share', '🔖 Save'], 
-            datasets: [{ data: [totals.like, totals.comment, totals.share, totals.save], backgroundColor: ['#f77737', '#fcaa67', '#4c9f70', '#fdcb6e'], borderWidth: 0 }] }, 
-            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } } 
-        });
+        pieChart = new Chart(ctx, { type: 'pie', data: { labels: ['👍 Like', '💬 Komentar', '🔄 Share', '🔖 Save'], datasets: [{ data: [totals.like, totals.comment, totals.share, totals.save], backgroundColor: ['#f77737', '#fcaa67', '#4c9f70', '#fdcb6e'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } } });
     }
 
     function renderRanking() {
@@ -629,16 +491,15 @@
         const topN = Math.min(10, sorted.length);
         for (let i = 0; i < topN; i++) {
             const emp = sorted[i];
-            const total = emp.like + emp.comment + emp.share + emp.save;
-            let medalClass = ''; let medalIcon = '';
+            const total = emp.like+emp.comment+emp.share+emp.save;
+            let medalClass = '', medalIcon = '';
             if (i === 0) { medalClass = 'medal-gold'; medalIcon = '🥇'; }
             else if (i === 1) { medalClass = 'medal-silver'; medalIcon = '🥈'; }
             else if (i === 2) { medalClass = 'medal-bronze'; medalIcon = '🥉'; }
             else { medalIcon = `${i+1}.`; }
-            const rankingDiv = document.createElement('div');
-            rankingDiv.className = 'ranking-item';
-            rankingDiv.innerHTML = `<div class="ranking-number ${medalClass}">${medalIcon}</div><div class="ranking-name">${emp.name}<br><span style="font-size:0.6rem; color:#a58365;">@${emp.igAccount}</span></div><div class="ranking-score"><i class="fas fa-chart-line"></i> ${total.toLocaleString()}</div>`;
-            container.appendChild(rankingDiv);
+            const div = document.createElement('div'); div.className = 'ranking-item';
+            div.innerHTML = `<div class="ranking-number ${medalClass}">${medalIcon}</div><div class="ranking-name">${emp.name}<br><span style="font-size:0.6rem;">@${emp.igAccount}</span></div><div class="ranking-score">${total.toLocaleString()}</div>`;
+            container.appendChild(div);
         }
     }
 
@@ -648,99 +509,117 @@
         const inactiveCount = employeesData.length - activeCount;
         const avgInteraction = activeCount > 0 ? Math.round(totals.total / activeCount) : 0;
         const activeList = employeesData.filter(e => e.hasAccount);
-        const highPerformers = activeList.filter(e => (e.like+e.comment+e.share+e.save) > 400).length;
-        const mediumPerformers = activeList.filter(e => (e.like+e.comment+e.share+e.save) >= 200 && (e.like+e.comment+e.share+e.save) <= 400).length;
-        const lowPerformers = activeList.filter(e => (e.like+e.comment+e.share+e.save) < 200 && (e.like+e.comment+e.share+e.save) > 0).length;
-        const zeroInteractors = activeList.filter(e => (e.like+e.comment+e.share+e.save) === 0).length;
-        const likePercent = totals.total > 0 ? ((totals.like/totals.total)*100).toFixed(1) : 0;
-        const commentPercent = totals.total > 0 ? ((totals.comment/totals.total)*100).toFixed(1) : 0;
-        const sharePercent = totals.total > 0 ? ((totals.share/totals.total)*100).toFixed(1) : 0;
-        const savePercent = totals.total > 0 ? ((totals.save/totals.total)*100).toFixed(1) : 0;
-        const sortedByTotal = [...activeList].sort((a,b) => (b.like+b.comment+b.share+b.save) - (a.like+a.comment+a.share+a.save));
-        const topPerformer = sortedByTotal.length > 0 ? sortedByTotal[0] : null;
-        const topScore = topPerformer ? (topPerformer.like+topPerformer.comment+topPerformer.share+topPerformer.save) : 0;
-        
+        const high = activeList.filter(e => (e.like+e.comment+e.share+e.save) > 400).length;
+        const medium = activeList.filter(e => (e.like+e.comment+e.share+e.save) >= 200 && (e.like+e.comment+e.share+e.save) <= 400).length;
+        const low = activeList.filter(e => (e.like+e.comment+e.share+e.save) < 200 && (e.like+e.comment+e.share+e.save) > 0).length;
+        const zero = activeList.filter(e => (e.like+e.comment+e.share+e.save) === 0).length;
+        const lp = totals.total > 0 ? ((totals.like/totals.total)*100).toFixed(1) : 0;
+        const cp = totals.total > 0 ? ((totals.comment/totals.total)*100).toFixed(1) : 0;
+        const sp = totals.total > 0 ? ((totals.share/totals.total)*100).toFixed(1) : 0;
+        const svp = totals.total > 0 ? ((totals.save/totals.total)*100).toFixed(1) : 0;
+        const top = getHighestPerformer();
         document.getElementById('summaryReportContainer').innerHTML = `
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-line"></i> Statistik Partisipasi</div><div class="insight-value">${totals.total.toLocaleString()}</div><div>Total Interaksi dari ${activeCount} Karyawan Aktif</div><div class="progress-bar-bg" style="margin-top:12px;"><div class="progress-fill" style="width:${likePercent}%"></div></div><div class="stat-percent"><span>👍 Like ${likePercent}%</span><span>💬 Komentar ${commentPercent}%</span><span>🔄 Share ${sharePercent}%</span><span>🔖 Save ${savePercent}%</span></div><div style="margin-top: 12px;"><span class="badge-insight">📊 Rata-rata per karyawan aktif: ${avgInteraction} interaksi</span></div>${topPerformer ? `<div style="margin-top: 8px;"><span class="badge-insight"><i class="fas fa-crown"></i> Peringkat 1: ${topPerformer.name} (${topScore} interaksi)</span></div>` : ''}</div>
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-bar"></i> Distribusi Performa Karyawan</div><div><strong>🏅 High Performers (>400)</strong> : ${highPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(highPerformers/activeCount*100)||0}%; background:#6fbf4c;"></div></div><div><strong>📊 Medium Performers (200-400)</strong> : ${mediumPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(mediumPerformers/activeCount*100)||0}%; background:#f9a26c;"></div></div><div><strong>🌱 Low Performers (1-199)</strong> : ${lowPerformers} orang</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(lowPerformers/activeCount*100)||0}%; background:#c5854b;"></div></div><div><strong>⚪ Belum Berinteraksi (0)</strong> : ${zeroInteractors} orang</div><div style="margin-top:8px;"><i class="fas fa-users"></i> Karyawan tanpa akun: ${inactiveCount} orang</div></div>
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-pie"></i> Akumulasi & Insight</div><div><strong>Total Like:</strong> ${totals.like.toLocaleString()} | <strong>Total Komentar:</strong> ${totals.comment.toLocaleString()}</div><div><strong>Total Share:</strong> ${totals.share.toLocaleString()} | <strong>Total Save:</strong> ${totals.save.toLocaleString()}</div><div style="margin-top: 10px; background:#f7efe6; border-radius: 16px; padding: 10px;"><i class="fas fa-calculator"></i> <strong>Perbandingan Interaksi:</strong><br>Like : Share = ${totals.share > 0 ? (totals.like/totals.share).toFixed(1) : totals.like} : 1<br>Save : Comment = ${totals.comment > 0 ? (totals.save/totals.comment).toFixed(1) : totals.save} : 1</div><div style="margin-top: 10px;"><i class="fas fa-chart-simple"></i> Jenis interaksi paling dominan: <strong>${likePercent >= commentPercent && likePercent >= sharePercent && likePercent >= savePercent ? '👍 Like' : (commentPercent >= sharePercent && commentPercent >= savePercent ? '💬 Komentar' : (sharePercent >= savePercent ? '🔄 Share' : '🔖 Save'))}</strong></div></div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-line"></i> Statistik Partisipasi</div><div class="insight-value">${totals.total.toLocaleString()}</div><div>Total Interaksi dari ${activeCount} Karyawan Aktif</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${lp}%"></div></div><div class="stat-percent"><span>👍 Like ${lp}%</span><span>💬 Komentar ${cp}%</span><span>🔄 Share ${sp}%</span><span>🔖 Save ${svp}%</span></div><div><span class="badge-insight">📊 Rata-rata: ${avgInteraction}</span> ${top && top.total>0 ? `<span class="badge-insight"><i class="fas fa-crown"></i> Tertinggi: ${top.name} (${top.total})</span>` : ''}</div></div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-bar"></i> Distribusi Performa</div><div><strong>🏅 >400</strong> : ${high} org</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(high/activeCount*100)||0}%; background:#6fbf4c;"></div></div><div><strong>📊 200-400</strong> : ${medium} org</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(medium/activeCount*100)||0}%; background:#f9a26c;"></div></div><div><strong>🌱 1-199</strong> : ${low} org</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(low/activeCount*100)||0}%; background:#c5854b;"></div></div><div><strong>⚪ 0</strong> : ${zero} org | Tanpa akun: ${inactiveCount}</div></div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-pie"></i> Akumulasi</div><div><strong>Like:</strong> ${totals.like.toLocaleString()} | <strong>Komen:</strong> ${totals.comment.toLocaleString()}</div><div><strong>Share:</strong> ${totals.share.toLocaleString()} | <strong>Save:</strong> ${totals.save.toLocaleString()}</div><div style="margin-top:10px; background:#f7efe6; border-radius:16px; padding:10px;"><i class="fas fa-calculator"></i> Like:Share = ${totals.share > 0 ? (totals.like/totals.share).toFixed(1) : totals.like} : 1<br>Save:Comment = ${totals.comment > 0 ? (totals.save/totals.comment).toFixed(1) : totals.save} : 1</div></div>
         `;
     }
 
     function refreshAll() {
         renderStats();
-        const searchVal = document.getElementById('searchKaryawan')?.value || "";
-        renderTable(searchVal);
+        renderTable(document.getElementById('searchKaryawan')?.value || "");
         renderPieChart();
+        renderHighestPerformer();
         renderRanking();
         renderOverallSummary();
         checkDataComplete();
     }
 
     window.filterTable = () => { renderTable(document.getElementById('searchKaryawan').value); };
-    window.resetAllInteractions = function() { 
-        if (confirm("Reset akan menghapus semua data interaksi yang sudah diisi. Lanjutkan?")) {
-            employeesData.forEach(emp => { if (emp.hasAccount) { emp.like = 0; emp.comment = 0; emp.share = 0; emp.save = 0; } }); 
+    window.resetAllInteractions = () => {
+        if (confirm("Reset semua data interaksi?")) {
+            employeesData.forEach(emp => { if (emp.hasAccount) { emp.like = 0; emp.comment = 0; emp.share = 0; emp.save = 0; } });
             refreshAll();
-            showToast("Semua data interaksi telah direset", true);
+            showToast("Semua data direset", true);
         }
     };
 
-    // ======================== EKSPOR PDF & JPEG ========================
+    function showToast(msg, isSuccess = true) {
+        const toast = document.createElement('div'); toast.className = 'toast-notif';
+        toast.style.background = isSuccess ? '#27ae60' : '#e74c3c';
+        toast.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${msg}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function saveReportToLocal() {
+        const active = employeesData.filter(e => e.hasAccount);
+        const allFilled = active.length > 0 && active.every(emp => (emp.like+emp.comment+emp.share+emp.save) > 0);
+        if (!allFilled) { showToast("Isi semua interaksi karyawan aktif terlebih dahulu!", false); return; }
+        const reportData = { savedAt: new Date().toISOString(), employees: employeesData.map(e => ({ no:e.no, name:e.name, igAccount:e.igAccount, hasAccount:e.hasAccount, like:e.like, comment:e.comment, share:e.share, save:e.save })) };
+        localStorage.setItem('PawonMbahGito_Report', JSON.stringify(reportData));
+        showToast("Laporan berhasil disimpan ke browser!", true);
+    }
+
+    function loadSavedReport() {
+        const saved = localStorage.getItem('PawonMbahGito_Report');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed.employees && parsed.employees.length === employeesData.length) {
+                    for (let i = 0; i < employeesData.length; i++) {
+                        if (employeesData[i].hasAccount) {
+                            employeesData[i].like = parsed.employees[i].like || 0;
+                            employeesData[i].comment = parsed.employees[i].comment || 0;
+                            employeesData[i].share = parsed.employees[i].share || 0;
+                            employeesData[i].save = parsed.employees[i].save || 0;
+                        }
+                    }
+                    refreshAll();
+                    showToast("Data tersimpan dimuat!", true);
+                    return true;
+                }
+            } catch(e) {}
+        }
+        return false;
+    }
+
     async function exportAsPDF() {
-        const element = document.getElementById('reportContainer');
-        const buttons = document.getElementById('exportButtons');
-        buttons.classList.add('export-hide');
+        const el = document.getElementById('reportContainer');
+        const btns = document.getElementById('actionButtons');
+        btns.classList.add('export-hide');
         try {
-            const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#faf6f0' });
+            const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#faf6f0' });
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const imgWidth = 210;
-            const pageHeight = 297;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            let position = 0;
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            if (imgHeight > pageHeight) {
-                let heightLeft = imgHeight - pageHeight;
-                while (heightLeft > 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-            }
-            pdf.save(`Laporan_Interaksi_PawonMbahGito_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.pdf`);
-            showToast("PDF berhasil diekspor!", true);
-        } catch (err) { console.error(err); showToast("Gagal export PDF", false); }
-        finally { buttons.classList.remove('export-hide'); }
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgW = 210; const imgH = (canvas.height * imgW) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
+            if (imgH > 297) { let y = -297; while (y > -imgH) { pdf.addPage(); pdf.addImage(imgData, 'PNG', 0, y, imgW, imgH); y -= 297; } }
+            pdf.save(`Laporan_PawonMbahGito_${Date.now()}.pdf`);
+            showToast("PDF berhasil diekspor", true);
+        } catch(e) { showToast("Gagal export PDF", false); }
+        finally { btns.classList.remove('export-hide'); }
     }
-    
     async function exportAsJPEG() {
-        const element = document.getElementById('reportContainer');
-        const buttons = document.getElementById('exportButtons');
-        buttons.classList.add('export-hide');
+        const el = document.getElementById('reportContainer');
+        const btns = document.getElementById('actionButtons');
+        btns.classList.add('export-hide');
         try {
-            const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#faf6f0' });
+            const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#faf6f0' });
             const link = document.createElement('a');
-            link.download = `Laporan_Interaksi_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.jpeg`;
+            link.download = `Laporan_${Date.now()}.jpeg`;
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.click();
-            showToast("JPEG berhasil diekspor!", true);
-        } catch (err) { console.error(err); showToast("Gagal export JPEG", false); }
-        finally { buttons.classList.remove('export-hide'); }
+            showToast("JPEG berhasil diekspor", true);
+        } catch(e) { showToast("Gagal export JPEG", false); }
+        finally { btns.classList.remove('export-hide'); }
     }
-    
+
     document.getElementById('exportPdfBtn').addEventListener('click', exportAsPDF);
     document.getElementById('exportJpegBtn').addEventListener('click', exportAsJPEG);
     document.getElementById('saveDataBtn').addEventListener('click', saveReportToLocal);
-    
-    // Load data yang tersimpan saat pertama kali
-    if (!loadSavedReport()) {
-        refreshAll();
-    } else {
-        refreshAll();
-    }
+    if (!loadSavedReport()) refreshAll();
 </script>
 </body>
 </html>
