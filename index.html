@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Laporan Interaksi Karyawan - Pawon Mbah Gito</title>
+    <title>Laporan Interaksi Karyawan - Pawon Mbah Gito (Otomatis Urut Tertinggi ke Terendah)</title>
     <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -50,7 +50,7 @@
         }
         .date-badge i { margin-right: 8px; color: #b97f4b; }
 
-        /* Export & Save Buttons */
+        /* Action Buttons */
         .action-section {
             display: flex;
             gap: 1rem;
@@ -178,7 +178,6 @@
         canvas { max-height: 220px; width: 100%; }
         @media (max-width: 780px) { body { padding: 1rem; } th, td { font-size: 0.7rem; } .interaction-input { width: 60px; font-size: 0.7rem; } }
         
-        /* Ranking & Highest Performer */
         .ranking-list { margin-top: 0.5rem; max-height: 280px; overflow-y: auto; }
         .ranking-item {
             display: flex;
@@ -262,6 +261,14 @@
             animation: slideIn 0.3s ease;
         }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .sort-badge {
+            background: #e7daca;
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-left: 10px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
@@ -269,7 +276,7 @@
     <div class="brand-header">
         <div class="title-section">
             <h1><i class="fab fa-instagram" style="color:#c5854b;"></i> Pawon Mbah Gito · Laporan Partisipasi Karyawan</h1>
-            <p>📊 Input interaksi Like, Komentar, Share, Save — Total & Peringkat Tertinggi Otomatis</p>
+            <p>📊 Input interaksi — Nama otomatis berurutan dari total TERTINGGI ke TERENDAH setiap saat</p>
         </div>
         <div class="date-badge"><i class="far fa-calendar-alt"></i> Periode: 1 - 30 April 2026</div>
     </div>
@@ -285,7 +292,8 @@
     <div class="dashboard-panel">
         <div class="table-wrapper">
             <div class="section-title">
-                <i class="fas fa-users"></i> Daftar Karyawan & Input Interaksi
+                <i class="fas fa-users"></i> Daftar Karyawan (Urut Total Tertinggi → Terendah)
+                <span class="sort-badge"><i class="fas fa-arrow-down-1-9"></i> Auto-sort by total</span>
                 <span style="margin-left:auto;"><button class="btn-reset" id="resetBtn" onclick="resetAllInteractions()"><i class="fas fa-undo-alt"></i> Reset Semua</button></span>
             </div>
             <div class="search-box">
@@ -294,24 +302,27 @@
             </div>
             <div style="overflow-x: auto;">
                 <table id="karyawanTable">
-                    <thead><tr><th>No</th><th>Nama</th><th>Akun IG</th><th>👍 Like</th><th>💬 Komentar</th><th>🔄 Share</th><th>🔖 Save</th><th>✨ Total</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Peringkat</th><th>Nama Karyawan</th><th>Akun Instagram</th><th>👍 Like</th><th>💬 Komentar</th><th>🔄 Share</th><th>🔖 Save</th><th>✨ Total Interaksi</th>
+                        </tr>
+                    </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
-            <div class="footer-note"><i class="fas fa-edit"></i> Isi angka pada kolom interaksi — hasil dan peringkat tertinggi otomatis berubah.</div>
+            <div class="footer-note"><i class="fas fa-edit"></i> Isi angka pada kolom interaksi — posisi nama akan otomatis berubah sesuai total tertinggi ke terendah.</div>
         </div>
         <div class="chart-wrapper">
             <div class="section-title"><i class="fas fa-chart-pie"></i> Persentase Jenis Interaksi</div>
             <canvas id="interaksiPieChart"></canvas>
             <hr style="margin: 16px 0 12px;">
             
-            <!-- Fitur Karyawan dengan Interaksi TERTINGGI -->
             <div class="section-title"><i class="fas fa-crown"></i> 👑 Karyawan dengan Interaksi Tertinggi</div>
             <div id="highestPerformerCard" class="highest-card">
                 <i class="fas fa-star" style="color:#f39c12;"></i> <span style="font-weight:600;">Belum ada data</span>
             </div>
             
-            <div class="section-title"><i class="fas fa-trophy"></i> 🏆 Peringkat Karyawan Teraktif</div>
+            <div class="section-title"><i class="fas fa-trophy"></i> 🏆 Peringkat Teraktif (Top 10)</div>
             <div id="rankingList" class="ranking-list"></div>
         </div>
     </div>
@@ -319,12 +330,12 @@
     <div class="summary-report">
         <div class="section-title"><i class="fas fa-chart-simple"></i> Ringkasan Laporan Keseluruhan</div>
         <div id="summaryReportContainer" class="summary-grid"></div>
-        <div class="footer-note"><i class="fas fa-sync-alt"></i> Semua data otomatis terakumulasi saat input diubah.</div>
+        <div class="footer-note"><i class="fas fa-sync-alt"></i> Semua data otomatis terakumulasi saat input diubah. Urutan tabel berubah realtime.</div>
     </div>
 </div>
 
 <script>
-    // ======================== DATA KARYAWAN (45) ========================
+    // ======================== DATA KARYAWAN (45 Orang) ========================
     const rawEmployees = [
         { no:1, name:"DIYAH", ig:"dyhnovi", hasAccount:true }, { no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true },
         { no:3, name:"KAMAL", ig:"Mallxyxx", hasAccount:true }, { no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true },
@@ -362,6 +373,16 @@
 
     let pieChart;
 
+    // ========== FUNGSI UTAMA ==========
+    function getTotal(emp) { return emp.like + emp.comment + emp.share + emp.save; }
+    
+    // Mengembalikan array karyawan yang memiliki akun, diurutkan dari total tertinggi ke terendah
+    function getSortedActiveEmployees() {
+        const active = employeesData.filter(e => e.hasAccount);
+        return [...active].sort((a, b) => getTotal(b) - getTotal(a));
+    }
+    
+    // Untuk keperluan filter pencarian, kita tetap pakai data asli tapi sorting dilakukan saat render
     function computeTotals() {
         let like=0, comment=0, share=0, save=0;
         employeesData.forEach(emp => { if (emp.hasAccount) { like += emp.like; comment += emp.comment; share += emp.share; save += emp.save; } });
@@ -369,33 +390,10 @@
     }
     function getActiveCount() { return employeesData.filter(e => e.hasAccount).length; }
 
-    // Hitung karyawan dengan interaksi TERTINGGI
     function getHighestPerformer() {
-        const active = employeesData.filter(e => e.hasAccount);
-        if (active.length === 0) return null;
-        let highest = active[0];
-        let maxTotal = highest.like + highest.comment + highest.share + highest.save;
-        for (let i = 1; i < active.length; i++) {
-            const total = active[i].like + active[i].comment + active[i].share + active[i].save;
-            if (total > maxTotal) { maxTotal = total; highest = active[i]; }
-        }
-        return { ...highest, total: maxTotal };
-    }
-
-    function renderHighestPerformer() {
-        const highest = getHighestPerformer();
-        const container = document.getElementById('highestPerformerCard');
-        if (!highest || highest.total === 0) {
-            container.innerHTML = `<i class="fas fa-star" style="color:#f39c12;"></i> <span style="font-weight:600;">Belum ada data interaksi</span>`;
-            return;
-        }
-        container.innerHTML = `
-            <i class="fas fa-crown" style="color:#f1c40f; font-size:1.5rem;"></i>
-            <div class="highest-name">🏆 ${highest.name}</div>
-            <div class="highest-score">${highest.total.toLocaleString()} total interaksi</div>
-            <div style="font-size:0.7rem; color:#a58365;">@${highest.igAccount}</div>
-            <div style="margin-top:5px;"><span class="badge-insight">👍 ${highest.like} · 💬 ${highest.comment} · 🔄 ${highest.share} · 🔖 ${highest.save}</span></div>
-        `;
+        const sorted = getSortedActiveEmployees();
+        if (sorted.length === 0 || getTotal(sorted[0]) === 0) return null;
+        return sorted[0];
     }
 
     function renderStats() {
@@ -414,43 +412,77 @@
 
     function checkDataComplete() {
         const active = employeesData.filter(e => e.hasAccount);
-        const allHaveData = active.length > 0 && active.every(emp => (emp.like + emp.comment + emp.share + emp.save) > 0);
+        const allHaveData = active.length > 0 && active.every(emp => getTotal(emp) > 0);
         const saveBtn = document.getElementById('saveDataBtn');
         if (saveBtn) { saveBtn.disabled = !allHaveData; }
     }
 
+    // Render tabel dengan urutan dari total tertinggi ke terendah (berdasarkan data asli yang sudah diupdate)
     function renderTable(filterText = "") {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = "";
-        const filtered = employeesData.filter(emp => emp.name.toLowerCase().includes(filterText.toLowerCase()) || (emp.igAccount && emp.igAccount.toLowerCase().includes(filterText.toLowerCase())));
-        filtered.forEach(emp => {
+        
+        // Ambil semua karyawan dengan akun, urutkan berdasarkan total tertinggi
+        let sortedActive = getSortedActiveEmployees();
+        
+        // Filter berdasarkan teks pencarian
+        if (filterText) {
+            sortedActive = sortedActive.filter(emp => 
+                emp.name.toLowerCase().includes(filterText.toLowerCase()) || 
+                emp.igAccount.toLowerCase().includes(filterText.toLowerCase())
+            );
+        }
+        
+        // Tampilkan juga karyawan tanpa akun di bagian bawah (tetap urut berdasarkan nama)
+        const inactiveEmployees = employeesData.filter(e => !e.hasAccount);
+        let filteredInactive = inactiveEmployees;
+        if (filterText) {
+            filteredInactive = inactiveEmployees.filter(emp => 
+                emp.name.toLowerCase().includes(filterText.toLowerCase())
+            );
+        }
+        
+        let rank = 1;
+        // Render karyawan aktif yang sudah diurut
+        sortedActive.forEach(emp => {
             const originalIdx = employeesData.findIndex(e => e.no === emp.no && e.name === emp.name);
+            const total = getTotal(emp);
             const row = tbody.insertRow();
-            row.insertCell(0).innerHTML = emp.no;
-            row.insertCell(1).innerHTML = `<span class="karyawan-nama"><i class="fas fa-user-circle"></i> ${emp.name}</span>`;
-            if (emp.hasAccount) row.insertCell(2).innerHTML = `<span class="akun-ig"><i class="fab fa-instagram"></i> @${emp.igAccount}</span>`;
-            else row.insertCell(2).innerHTML = `<span class="akun-ig akun-tidak-ada"><i class="fas fa-ban"></i> Tidak memiliki akun</span>`;
+            // Kolom peringkat
+            const rankCell = row.insertCell(0);
+            rankCell.innerHTML = `<span style="font-weight:800; background:#e7daca; padding:4px 10px; border-radius:30px;">#${rank}</span>`;
+            rankCell.style.textAlign = "center";
+            rank++;
             
-            if (emp.hasAccount) {
-                const likeInp = createInput(emp.like, (val) => updateValue(originalIdx, 'like', val));
-                row.insertCell(3).appendChild(likeInp);
-                const commentInp = createInput(emp.comment, (val) => updateValue(originalIdx, 'comment', val));
-                row.insertCell(4).appendChild(commentInp);
-                const shareInp = createInput(emp.share, (val) => updateValue(originalIdx, 'share', val));
-                row.insertCell(5).appendChild(shareInp);
-                const saveInp = createInput(emp.save, (val) => updateValue(originalIdx, 'save', val));
-                row.insertCell(6).appendChild(saveInp);
-                const totalSpan = document.createElement('strong'); totalSpan.className = 'total-cell';
-                const updateTotal = () => { totalSpan.innerText = employeesData[originalIdx].like + employeesData[originalIdx].comment + employeesData[originalIdx].share + employeesData[originalIdx].save; };
-                updateTotal();
-                row.insertCell(7).appendChild(totalSpan);
-            } else {
-                row.insertCell(3).innerHTML = `<span class="no-data">—</span>`;
-                row.insertCell(4).innerHTML = `<span class="no-data">—</span>`;
-                row.insertCell(5).innerHTML = `<span class="no-data">—</span>`;
-                row.insertCell(6).innerHTML = `<span class="no-data">—</span>`;
-                row.insertCell(7).innerHTML = `<span class="no-data">—</span>`;
-            }
+            row.insertCell(1).innerHTML = `<span class="karyawan-nama"><i class="fas fa-user-circle"></i> ${emp.name}</span>`;
+            row.insertCell(2).innerHTML = `<span class="akun-ig"><i class="fab fa-instagram"></i> @${emp.igAccount}</span>`;
+            
+            // Input interaksi
+            const likeInp = createInput(emp.like, (val) => updateValue(originalIdx, 'like', val));
+            row.insertCell(3).appendChild(likeInp);
+            const commentInp = createInput(emp.comment, (val) => updateValue(originalIdx, 'comment', val));
+            row.insertCell(4).appendChild(commentInp);
+            const shareInp = createInput(emp.share, (val) => updateValue(originalIdx, 'share', val));
+            row.insertCell(5).appendChild(shareInp);
+            const saveInp = createInput(emp.save, (val) => updateValue(originalIdx, 'save', val));
+            row.insertCell(6).appendChild(saveInp);
+            
+            const totalSpan = document.createElement('strong'); totalSpan.className = 'total-cell';
+            totalSpan.innerText = total;
+            row.insertCell(7).appendChild(totalSpan);
+        });
+        
+        // Render karyawan tanpa akun (tidak memiliki interaksi)
+        filteredInactive.forEach(emp => {
+            const row = tbody.insertRow();
+            row.insertCell(0).innerHTML = `<span style="font-weight:600; color:#a58365;">—</span>`;
+            row.insertCell(1).innerHTML = `<span class="karyawan-nama"><i class="fas fa-user-circle"></i> ${emp.name}</span>`;
+            row.insertCell(2).innerHTML = `<span class="akun-ig akun-tidak-ada"><i class="fas fa-ban"></i> Tidak memiliki akun</span>`;
+            row.insertCell(3).innerHTML = `<span class="no-data">—</span>`;
+            row.insertCell(4).innerHTML = `<span class="no-data">—</span>`;
+            row.insertCell(5).innerHTML = `<span class="no-data">—</span>`;
+            row.insertCell(6).innerHTML = `<span class="no-data">—</span>`;
+            row.insertCell(7).innerHTML = `<span class="no-data">—</span>`;
         });
     }
 
@@ -479,19 +511,35 @@
         pieChart = new Chart(ctx, { type: 'pie', data: { labels: ['👍 Like', '💬 Komentar', '🔄 Share', '🔖 Save'], datasets: [{ data: [totals.like, totals.comment, totals.share, totals.save], backgroundColor: ['#f77737', '#fcaa67', '#4c9f70', '#fdcb6e'], borderWidth: 0 }] }, options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } } });
     }
 
+    function renderHighestPerformer() {
+        const highest = getHighestPerformer();
+        const container = document.getElementById('highestPerformerCard');
+        if (!highest || getTotal(highest) === 0) {
+            container.innerHTML = `<i class="fas fa-star" style="color:#f39c12;"></i> <span style="font-weight:600;">Belum ada data interaksi</span>`;
+            return;
+        }
+        const total = getTotal(highest);
+        container.innerHTML = `
+            <i class="fas fa-crown" style="color:#f1c40f; font-size:1.5rem;"></i>
+            <div class="highest-name">🏆 ${highest.name}</div>
+            <div class="highest-score">${total.toLocaleString()} total interaksi</div>
+            <div style="font-size:0.7rem; color:#a58365;">@${highest.igAccount}</div>
+            <div style="margin-top:5px;"><span class="badge-insight">👍 ${highest.like} · 💬 ${highest.comment} · 🔄 ${highest.share} · 🔖 ${highest.save}</span></div>
+        `;
+    }
+
     function renderRanking() {
-        const active = employeesData.filter(e => e.hasAccount);
-        const sorted = [...active].sort((a,b) => (b.like+b.comment+b.share+b.save) - (a.like+a.comment+a.share+a.save));
+        const sorted = getSortedActiveEmployees();
         const container = document.getElementById('rankingList');
         container.innerHTML = '';
-        if (sorted.length === 0 || sorted.every(e => e.like+e.comment+e.share+e.save === 0)) {
+        if (sorted.length === 0 || getTotal(sorted[0]) === 0) {
             container.innerHTML = '<div style="text-align:center; padding:1rem; color:#b58b6b;">Belum ada data interaksi</div>';
             return;
         }
         const topN = Math.min(10, sorted.length);
         for (let i = 0; i < topN; i++) {
             const emp = sorted[i];
-            const total = emp.like+emp.comment+emp.share+emp.save;
+            const total = getTotal(emp);
             let medalClass = '', medalIcon = '';
             if (i === 0) { medalClass = 'medal-gold'; medalIcon = '🥇'; }
             else if (i === 1) { medalClass = 'medal-silver'; medalIcon = '🥈'; }
@@ -509,17 +557,17 @@
         const inactiveCount = employeesData.length - activeCount;
         const avgInteraction = activeCount > 0 ? Math.round(totals.total / activeCount) : 0;
         const activeList = employeesData.filter(e => e.hasAccount);
-        const high = activeList.filter(e => (e.like+e.comment+e.share+e.save) > 400).length;
-        const medium = activeList.filter(e => (e.like+e.comment+e.share+e.save) >= 200 && (e.like+e.comment+e.share+e.save) <= 400).length;
-        const low = activeList.filter(e => (e.like+e.comment+e.share+e.save) < 200 && (e.like+e.comment+e.share+e.save) > 0).length;
-        const zero = activeList.filter(e => (e.like+e.comment+e.share+e.save) === 0).length;
+        const high = activeList.filter(e => getTotal(e) > 400).length;
+        const medium = activeList.filter(e => getTotal(e) >= 200 && getTotal(e) <= 400).length;
+        const low = activeList.filter(e => getTotal(e) < 200 && getTotal(e) > 0).length;
+        const zero = activeList.filter(e => getTotal(e) === 0).length;
         const lp = totals.total > 0 ? ((totals.like/totals.total)*100).toFixed(1) : 0;
         const cp = totals.total > 0 ? ((totals.comment/totals.total)*100).toFixed(1) : 0;
         const sp = totals.total > 0 ? ((totals.share/totals.total)*100).toFixed(1) : 0;
         const svp = totals.total > 0 ? ((totals.save/totals.total)*100).toFixed(1) : 0;
         const top = getHighestPerformer();
         document.getElementById('summaryReportContainer').innerHTML = `
-            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-line"></i> Statistik Partisipasi</div><div class="insight-value">${totals.total.toLocaleString()}</div><div>Total Interaksi dari ${activeCount} Karyawan Aktif</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${lp}%"></div></div><div class="stat-percent"><span>👍 Like ${lp}%</span><span>💬 Komentar ${cp}%</span><span>🔄 Share ${sp}%</span><span>🔖 Save ${svp}%</span></div><div><span class="badge-insight">📊 Rata-rata: ${avgInteraction}</span> ${top && top.total>0 ? `<span class="badge-insight"><i class="fas fa-crown"></i> Tertinggi: ${top.name} (${top.total})</span>` : ''}</div></div>
+            <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-line"></i> Statistik Partisipasi</div><div class="insight-value">${totals.total.toLocaleString()}</div><div>Total Interaksi dari ${activeCount} Karyawan Aktif</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${lp}%"></div></div><div class="stat-percent"><span>👍 Like ${lp}%</span><span>💬 Komentar ${cp}%</span><span>🔄 Share ${sp}%</span><span>🔖 Save ${svp}%</span></div><div><span class="badge-insight">📊 Rata-rata: ${avgInteraction}</span> ${top && getTotal(top)>0 ? `<span class="badge-insight"><i class="fas fa-crown"></i> Tertinggi: ${top.name} (${getTotal(top)})</span>` : ''}</div></div>
             <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-bar"></i> Distribusi Performa</div><div><strong>🏅 >400</strong> : ${high} org</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(high/activeCount*100)||0}%; background:#6fbf4c;"></div></div><div><strong>📊 200-400</strong> : ${medium} org</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(medium/activeCount*100)||0}%; background:#f9a26c;"></div></div><div><strong>🌱 1-199</strong> : ${low} org</div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(low/activeCount*100)||0}%; background:#c5854b;"></div></div><div><strong>⚪ 0</strong> : ${zero} org | Tanpa akun: ${inactiveCount}</div></div>
             <div class="insight-card"><div class="insight-title"><i class="fas fa-chart-pie"></i> Akumulasi</div><div><strong>Like:</strong> ${totals.like.toLocaleString()} | <strong>Komen:</strong> ${totals.comment.toLocaleString()}</div><div><strong>Share:</strong> ${totals.share.toLocaleString()} | <strong>Save:</strong> ${totals.save.toLocaleString()}</div><div style="margin-top:10px; background:#f7efe6; border-radius:16px; padding:10px;"><i class="fas fa-calculator"></i> Like:Share = ${totals.share > 0 ? (totals.like/totals.share).toFixed(1) : totals.like} : 1<br>Save:Comment = ${totals.comment > 0 ? (totals.save/totals.comment).toFixed(1) : totals.save} : 1</div></div>
         `;
@@ -554,7 +602,7 @@
 
     function saveReportToLocal() {
         const active = employeesData.filter(e => e.hasAccount);
-        const allFilled = active.length > 0 && active.every(emp => (emp.like+emp.comment+emp.share+emp.save) > 0);
+        const allFilled = active.length > 0 && active.every(emp => getTotal(emp) > 0);
         if (!allFilled) { showToast("Isi semua interaksi karyawan aktif terlebih dahulu!", false); return; }
         const reportData = { savedAt: new Date().toISOString(), employees: employeesData.map(e => ({ no:e.no, name:e.name, igAccount:e.igAccount, hasAccount:e.hasAccount, like:e.like, comment:e.comment, share:e.share, save:e.save })) };
         localStorage.setItem('PawonMbahGito_Report', JSON.stringify(reportData));
