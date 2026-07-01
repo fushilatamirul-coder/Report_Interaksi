@@ -3,287 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Interaksi Karyawan | Pawon Mbah Gito - Real-Time Instagram</title>
-    <!-- Font Awesome & Google Font -->
+    <title>Laporan Interaksi Karyawan | Pawon Mbah Gito · Juni 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- html2pdf untuk export PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
             padding: 30px 24px 60px;
             color: #0f172a;
         }
-
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-        }
-
-        /* Header */
+        .container { max-width:1440px; margin:0 auto; }
         .header {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-radius: 2rem;
-            padding: 2rem 2rem 1.8rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
-            color: white;
+            border-radius: 2rem; padding: 2rem 2rem 1.8rem; margin-bottom:2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2); color:white;
         }
-
         .header h1 {
-            font-size: 1.9rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size:1.9rem; font-weight:700; display:flex; align-items:center; gap:12px;
         }
-
-        .header h1 i {
-            background: #f9a825;
-            padding: 10px;
-            border-radius: 30px;
-            color: #1e293b;
-        }
-
+        .header h1 i { background:#f9a825; padding:10px; border-radius:30px; color:#1e293b; }
         .sub {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            gap: 20px;
+            display:flex; justify-content:space-between; flex-wrap:wrap; margin-top:20px; gap:20px;
         }
-
         .date-badge {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(4px);
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: 500;
+            background:rgba(255,255,255,0.15); backdrop-filter:blur(4px); padding:8px 18px; border-radius:40px; font-weight:500;
         }
-
         .live-badge {
-            background: #ef4444;
-            color: white;
-            border-radius: 40px;
-            padding: 6px 18px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            animation: pulse 1.5s infinite;
+            background:#ef4444; color:white; border-radius:40px; padding:6px 18px; font-size:0.8rem;
+            font-weight:bold; display:inline-flex; align-items:center; gap:8px; animation:pulse 1.5s infinite;
         }
-
-        @keyframes pulse {
-            0% { opacity: 0.7; transform: scale(1);}
-            100% { opacity: 1; transform: scale(1.02);}
-        }
-
-        /* stat cards */
+        @keyframes pulse { 0%{opacity:0.7; transform:scale(1);} 100%{opacity:1; transform:scale(1.02);} }
         .stats-grid {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
+            display:flex; gap:1.2rem; flex-wrap:wrap; margin-bottom:2rem;
         }
-
         .stat-card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1rem 1.5rem;
-            flex: 1;
-            min-width: 140px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.05);
+            background:white; border-radius:1.5rem; padding:1rem 1.5rem; flex:1; min-width:140px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.02); border:1px solid rgba(0,0,0,0.05);
         }
-
-        .stat-card .label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #475569;
-        }
-
-        .stat-card .value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        /* toolbar & buttons */
+        .stat-card .label { font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:#475569; }
+        .stat-card .value { font-size:2rem; font-weight:800; color:#0f172a; }
         .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            gap: 15px;
+            display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:20px; gap:15px;
         }
-        
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
+        .btn-group { display:flex; gap:12px; flex-wrap:wrap; }
         .btn-download {
-            background: #10b981;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
+            border:none; padding:10px 24px; border-radius:40px; font-weight:600; color:white;
+            cursor:pointer; transition:0.2s; display:inline-flex; align-items:center; gap:8px; font-size:0.85rem;
         }
-        
-        .btn-download.pdf {
-            background: #ef4444;
-        }
-        
-        .btn-download.csv {
-            background: #3b82f6;
-        }
-        
-        .btn-download:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-        }
-        
+        .btn-download.pdf { background:#ef4444; }
+        .btn-download.csv { background:#3b82f6; }
+        .btn-download:hover { transform:translateY(-2px); filter:brightness(1.05); }
         .month-picker {
-            background: white;
-            padding: 8px 16px;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background:white; padding:8px 16px; border-radius:40px; display:flex; align-items:center; gap:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.05);
         }
-        
         .month-picker input {
-            border: 1px solid #e2e8f0;
-            padding: 6px 12px;
-            border-radius: 30px;
-            font-family: inherit;
+            border:1px solid #e2e8f0; padding:6px 12px; border-radius:30px; font-family:inherit;
         }
-
-        /* Tabel */
+        .month-picker button {
+            background:#1e293b; color:white; border:none; padding:5px 14px; border-radius:20px; cursor:pointer;
+        }
         .table-wrapper {
-            background: white;
-            border-radius: 1.8rem;
-            overflow-x: auto;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-            border: 1px solid #eef2ff;
+            background:white; border-radius:1.8rem; overflow-x:auto; box-shadow:0 12px 30px rgba(0,0,0,0.05);
+            border:1px solid #eef2ff;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-
+        table { width:100%; border-collapse:collapse; font-size:0.85rem; }
         th {
-            background: #f8fafd;
-            padding: 16px 12px;
-            text-align: left;
-            font-weight: 600;
-            color: #334155;
-            border-bottom: 1px solid #e2e8f0;
+            background:#f8fafd; padding:16px 12px; text-align:left; font-weight:600; color:#334155;
+            border-bottom:1px solid #e2e8f0;
         }
-
-        td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            vertical-align: middle;
-        }
-
+        td { padding:14px 12px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
         .rank-badge {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background: #f1f5f9;
-            text-align: center;
-            line-height: 30px;
-            border-radius: 60px;
-            font-weight: bold;
-            font-size: 0.8rem;
+            display:inline-block; width:30px; height:30px; background:#f1f5f9; text-align:center; line-height:30px;
+            border-radius:60px; font-weight:bold; font-size:0.8rem;
         }
-
-        .rank-1 { background: #fbbf24; color: #1e293b; }
-        .rank-2 { background: #cbd5e1; color: #0f172a; }
-        .rank-3 { background: #fdba74; color: #2d1b0b; }
-
-        .ig-link {
-            color: #d62976;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
+        .rank-1 { background:#fbbf24; color:#1e293b; }
+        .rank-2 { background:#cbd5e1; color:#0f172a; }
+        .rank-3 { background:#fdba74; color:#2d1b0b; }
+        .ig-link { color:#d62976; text-decoration:none; font-weight:500; }
         .badge-no-acc {
-            background: #e2e8f0;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            background:#e2e8f0; padding:4px 12px; border-radius:50px; font-size:0.7rem; font-weight:600;
         }
-
-        .interaction-icons i {
-            margin-right: 8px;
-            font-size: 1rem;
-        }
-
+        .interaction-icons i { margin-right:6px; font-size:1rem; }
         .total-point {
-            font-weight: 800;
-            background: #eef2ff;
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.85rem;
+            font-weight:800; background:#eef2ff; display:inline-block; padding:4px 14px; border-radius:30px; font-size:0.85rem;
         }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.75rem;
-            color: #5b6e8c;
-        }
-        
-        /* loading */
+        footer { text-align:center; margin-top:40px; font-size:0.75rem; color:#5b6e8c; }
         .loading-overlay {
-            position: fixed;
-            top:0; left:0; right:0; bottom:0;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            color: white;
-            font-weight: bold;
+            position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5);
+            display:none; justify-content:center; align-items:center; z-index:999; color:white; font-weight:bold;
         }
-        
-        @media (max-width: 700px) {
-            body { padding: 16px; }
-            th, td { font-size: 0.75rem; padding: 10px 6px; }
-            .btn-download { padding: 6px 16px; font-size: 0.75rem; }
+        @media (max-width:700px) {
+            body { padding:16px; }
+            th, td { font-size:0.75rem; padding:10px 6px; }
+            .btn-download { padding:6px 16px; font-size:0.75rem; }
         }
     </style>
 </head>
 <body>
-
 <div class="loading-overlay" id="loadingOverlay">
     <div><i class="fas fa-spinner fa-pulse"></i> Mengunduh data...</div>
 </div>
@@ -292,10 +113,10 @@
     <div class="header">
         <h1><i class="fab fa-instagram"></i> Pawon Mbah Gito · Laporan Partisipasi Karyawan</h1>
         <div class="sub">
-            <div class="date-badge" id="periodDisplay"><i class="far fa-calendar-alt"></i> Periode: 1 - 30 November 2024</div>
+            <div class="date-badge" id="periodDisplay"><i class="far fa-calendar-alt"></i> Periode: 1 - 30 Juni 2026</div>
             <div class="live-badge"><i class="fas fa-sync-alt fa-fw"></i> REAL-TIME · Otomatis dari Instagram API</div>
         </div>
-        <div style="margin-top: 16px; font-size: 13px; background: #2d3a4b; padding: 8px 15px; border-radius: 40px; display: inline-block;">
+        <div style="margin-top:16px; font-size:13px; background:#2d3a4b; padding:8px 15px; border-radius:40px; display:inline-block;">
             ⚡ Terhubung ke akun bisnis @pawonmbahgito (Akses resmi - Token valid)
         </div>
     </div>
@@ -306,8 +127,8 @@
         <div class="month-picker">
             <i class="fas fa-calendar-alt"></i>
             <span>Bulan Laporan:</span>
-            <input type="month" id="monthSelector" value="2024-11">
-            <button id="refreshMonthBtn" style="background:#1e293b; color:white; border:none; padding:5px 12px; border-radius:20px; cursor:pointer;"><i class="fas fa-sync"></i> Tampilkan</button>
+            <input type="month" id="monthSelector" value="2026-06">
+            <button id="refreshMonthBtn"><i class="fas fa-sync"></i> Tampilkan</button>
         </div>
         <div class="btn-group">
             <button class="btn-download csv" id="downloadCsvBtn"><i class="fas fa-file-excel"></i> Download CSV (Bulanan)</button>
@@ -319,7 +140,10 @@
         <table id="reportTable">
             <thead>
                 <tr>
-                    <th>Peringkat</th><th>No</th><th>Nama Karyawan</th><th>Akun Instagram</th><th><i class="fas fa-heart"></i> Like</th><th><i class="fas fa-comment"></i> Komen</th><th><i class="fas fa-retweet"></i> Share/Repost</th><th><i class="fas fa-bookmark"></i> Save</th><th>Total Skor</th>
+                    <th>Peringkat</th><th>No</th><th>Nama Karyawan</th><th>Akun Instagram</th>
+                    <th><i class="fas fa-heart"></i> Like</th><th><i class="fas fa-comment"></i> Komen</th>
+                    <th><i class="fas fa-retweet"></i> Share/Repost</th><th><i class="fas fa-bookmark"></i> Save</th>
+                    <th>Total Skor</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
@@ -334,129 +158,128 @@
 </div>
 
 <script>
-    // Daftar karyawan
+    // Daftar karyawan (52 orang)
     const employeesRaw = [
-        { no:1, name:"SAMBAS", ig:"sambas8619", hasAccount:true }, { no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true },
-        { no:3, name:"VANI", ig:"setivani07", hasAccount:true }, { no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true },
-        { no:5, name:"AGUNG", ig:"agunghasanudin_5", hasAccount:true }, { no:6, name:"BAYU", ig:"aazmibayu", hasAccount:true },
-        { no:7, name:"ROHMAN", ig:"fthr.rohmann", hasAccount:true }, { no:8, name:"PUTRI", ig:"ptrichntka18_", hasAccount:true },
-        { no:9, name:"SOFAR", ig:"madsosio", hasAccount:true }, { no:10, name:"AWLIYA", ig:"matchamin_t", hasAccount:true },
-        { no:11, name:"JAELANI", ig:"ahmad.z83463", hasAccount:true }, { no:12, name:"LISA", ig:"Lisallty_", hasAccount:true },
-        { no:13, name:"RAFI", ig:"Mrafii12_", hasAccount:true }, { no:14, name:"RISKA", ig:"Rskendh", hasAccount:true },
-        { no:15, name:"FATHIYA", ig:"Fathiyarn_", hasAccount:true }, { no:16, name:"ROSA", ig:"Hy.rosaaa", hasAccount:true },
-        { no:17, name:"SIPA", ig:"Sipak.khoerunisa", hasAccount:true }, { no:18, name:"SYAFIQ", ig:"syafiqull72", hasAccount:true },
-        { no:19, name:"ARI", ig:"ariestyo", hasAccount:true }, { no:20, name:"HABIB", ig:"habib.dea2208", hasAccount:true },
-        { no:21, name:"Sulton", ig:"", hasAccount:false }, { no:22, name:"RAHMA", ig:"rahmaangtys_", hasAccount:true },
-        { no:23, name:"Damar", ig:"", hasAccount:false }, { no:24, name:"ANDI", ig:"panggilandisaja", hasAccount:true },
-        { no:25, name:"Lina", ig:"", hasAccount:false }, { no:26, name:"WANTI", ig:"Sriwnth", hasAccount:true },
-        { no:27, name:"YUDHA", ig:"dhaakach", hasAccount:true }, { no:28, name:"SEPTIAN", ig:"sptnchydi", hasAccount:true },
-        { no:29, name:"DONNY", ig:"Donnird12", hasAccount:true }, { no:30, name:"ANIS", ig:"Anissalkhkmh_", hasAccount:true },
-        { no:31, name:"AXL", ig:"axllsamm", hasAccount:true }, { no:32, name:"SOLIHIN", ig:"Maad11_s", hasAccount:true },
-        { no:33, name:"FATHUL", ig:"fthuuulzmy", hasAccount:true }, { no:34, name:"SHIFA", ig:"Shifamirazaq.cicip", hasAccount:true },
-        { no:35, name:"ARIF", ig:"Arif_sunandra", hasAccount:true }, { no:36, name:"HERU", ig:"", hasAccount:false },
-        { no:37, name:"ADHITYA", ig:"Adhityapril_", hasAccount:true }, { no:38, name:"AMIR", ig:"Amirul_fushilat", hasAccount:true },
-        { no:39, name:"ERMAWAN", ig:"Ermawantrisetyadi", hasAccount:true }, { no:40, name:"MAHESA", ig:"mahesarendraindra", hasAccount:true },
-        { no:41, name:"ABIDIN", ig:"Abidin_912", hasAccount:true }, { no:42, name:"BU ANIS", ig:"Aniest_87", hasAccount:true },
-        { no:43, name:"BU SRI", ig:"", hasAccount:false }, { no:44, name:"BU KENUK", ig:"Rudi_hartanti", hasAccount:true },
-        { no:45, name:"BU NOVI", ig:"", hasAccount:false }, { no:46, name:"BU IDA", ig:"Idayani3534", hasAccount:true },
-        { no:47, name:"BU SUKAP", ig:"", hasAccount:false }, { no:48, name:"PAK SLAMET", ig:"", hasAccount:false }, 
-        { no:49, name:"PAK SUPRI", ig:"", hasAccount:false }, { no:50, name:"PAK TUMIRAN", ig:"", hasAccount:false }, 
-        { no:51, name:"PAK TUGIMAN", ig:"", hasAccount:false }, { no:52, name:"PAK BAGYO", ig:"", hasAccount:false }
+        {no:1, name:"SAMBAS", ig:"sambas8619", hasAccount:true}, {no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true},
+        {no:3, name:"VANI", ig:"setivani07", hasAccount:true}, {no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true},
+        {no:5, name:"AGUNG", ig:"agunghasanudin_5", hasAccount:true}, {no:6, name:"BAYU", ig:"aazmibayu", hasAccount:true},
+        {no:7, name:"ROHMAN", ig:"fthr.rohmann", hasAccount:true}, {no:8, name:"PUTRI", ig:"ptrichntka18_", hasAccount:true},
+        {no:9, name:"SOFAR", ig:"madsosio", hasAccount:true}, {no:10, name:"AWLIYA", ig:"matchamin_t", hasAccount:true},
+        {no:11, name:"JAELANI", ig:"ahmad.z83463", hasAccount:true}, {no:12, name:"LISA", ig:"Lisallty_", hasAccount:true},
+        {no:13, name:"RAFI", ig:"Mrafii12_", hasAccount:true}, {no:14, name:"RISKA", ig:"Rskendh", hasAccount:true},
+        {no:15, name:"FATHIYA", ig:"Fathiyarn_", hasAccount:true}, {no:16, name:"ROSA", ig:"Hy.rosaaa", hasAccount:true},
+        {no:17, name:"SIPA", ig:"Sipak.khoerunisa", hasAccount:true}, {no:18, name:"SYAFIQ", ig:"syafiqull72", hasAccount:true},
+        {no:19, name:"ARI", ig:"ariestyo", hasAccount:true}, {no:20, name:"HABIB", ig:"habib.dea2208", hasAccount:true},
+        {no:21, name:"Sulton", ig:"", hasAccount:false}, {no:22, name:"RAHMA", ig:"rahmaangtys_", hasAccount:true},
+        {no:23, name:"Damar", ig:"", hasAccount:false}, {no:24, name:"ANDI", ig:"panggilandisaja", hasAccount:true},
+        {no:25, name:"Lina", ig:"", hasAccount:false}, {no:26, name:"WANTI", ig:"Sriwnth", hasAccount:true},
+        {no:27, name:"YUDHA", ig:"dhaakach", hasAccount:true}, {no:28, name:"SEPTIAN", ig:"sptnchydi", hasAccount:true},
+        {no:29, name:"DONNY", ig:"Donnird12", hasAccount:true}, {no:30, name:"ANIS", ig:"Anissalkhkmh_", hasAccount:true},
+        {no:31, name:"AXL", ig:"axllsamm", hasAccount:true}, {no:32, name:"SOLIHIN", ig:"Maad11_s", hasAccount:true},
+        {no:33, name:"FATHUL", ig:"fthuuulzmy", hasAccount:true}, {no:34, name:"SHIFA", ig:"Shifamirazaq.cicip", hasAccount:true},
+        {no:35, name:"ARIF", ig:"Arif_sunandra", hasAccount:true}, {no:36, name:"HERU", ig:"", hasAccount:false},
+        {no:37, name:"ADHITYA", ig:"Adhityapril_", hasAccount:true}, {no:38, name:"AMIR", ig:"Amirul_fushilat", hasAccount:true},
+        {no:39, name:"ERMAWAN", ig:"Ermawantrisetyadi", hasAccount:true}, {no:40, name:"MAHESA", ig:"mahesarendraindra", hasAccount:true},
+        {no:41, name:"ABIDIN", ig:"Abidin_912", hasAccount:true}, {no:42, name:"BU ANIS", ig:"Aniest_87", hasAccount:true},
+        {no:43, name:"BU SRI", ig:"", hasAccount:false}, {no:44, name:"BU KENUK", ig:"Rudi_hartanti", hasAccount:true},
+        {no:45, name:"BU NOVI", ig:"", hasAccount:false}, {no:46, name:"BU IDA", ig:"Idayani3534", hasAccount:true},
+        {no:47, name:"BU SUKAP", ig:"", hasAccount:false}, {no:48, name:"PAK SLAMET", ig:"", hasAccount:false},
+        {no:49, name:"PAK SUPRI", ig:"", hasAccount:false}, {no:50, name:"PAK TUMIRAN", ig:"", hasAccount:false},
+        {no:51, name:"PAK TUGIMAN", ig:"", hasAccount:false}, {no:52, name:"PAK BAGYO", ig:"", hasAccount:false}
     ];
 
-    // Variabel global untuk menyimpan data terbaru
-    let currentReportData = [];
-    let currentMonth = "2024-11";
+    // Data spesifik untuk 12 besar (sesuai permintaan)
+    const topData = {
+        "ROHMAN": {like:13, comment:12, share:13, save:13},
+        "BAYU": {like:13, comment:10, share:12, save:13},
+        "SEPTIAN": {like:13, comment:10, share:10, save:13},
+        "BU ANIS": {like:13, comment:7, share:10, save:13},
+        "CHARIKA": {like:13, comment:6, share:10, save:13},
+        "SOFAR": {like:13, comment:6, share:10, save:13},
+        "RISKA": {like:13, comment:4, share:10, save:13},
+        "SONI": {like:13, comment:3, share:5, save:13},
+        "ROSA": {like:13, comment:3, share:3, save:13},
+        "LISA": {like:13, comment:3, share:3, save:13},
+        "ADHITYA": {like:13, comment:2, share:3, save:13},
+        "SYAFIQ": {like:13, comment:2, share:3, save:13}
+    };
 
-    // Fungsi simulasi API real-time dari Instagram Pawon Mbah Gito (bisa diganti endpoint nyata)
-    async function fetchInteractionsFromAPI(month) {
-        console.log(`📡 Mengambil data interaksi real-time untuk bulan: ${month} dari @pawonmbahgito`);
-        // Simulasi random dengan seed berdasarkan bulan & nama agar konsisten per bulan
-        const interactionsMap = new Map();
-        
-        for(let emp of employeesRaw) {
-            if(!emp.hasAccount || !emp.ig) {
-                interactionsMap.set(emp.no, { like:0, comment:0, share:0, save:0 });
+    let currentReportData = [];
+    let currentMonth = "2026-06";
+
+    // Fungsi menghasilkan data interaksi dengan spesifikasi Juni 2026
+    function fetchInteractionsForJune2026(month) {
+        const map = new Map();
+        for (let emp of employeesRaw) {
+            if (!emp.hasAccount || !emp.ig) {
+                map.set(emp.no, {like:0, comment:0, share:0, save:0});
                 continue;
             }
-            // Menggunakan seed berdasarkan nama dan bulan agar data berbeda tiap bulan
-            const monthSeed = parseInt(month.split('-')[1]) || 11;
-            let seedVal = (emp.no * 7) + (monthSeed * 3);
-            const getRandom = (min, max) => {
-                let x = Math.sin(seedVal++) * 10000;
-                let r = x - Math.floor(x);
-                return Math.floor(r * (max - min + 1) + min);
-            };
-            
-            let likeCount = getRandom(3, 52);
-            let commentCount = getRandom(0, 28);
-            let shareCount = getRandom(0, 18);
-            let saveCount = getRandom(1, 32);
-            
-            interactionsMap.set(emp.no, { like: likeCount, comment: commentCount, share: shareCount, save: saveCount });
+            // Cek apakah masuk top 12 berdasarkan nama (case insensitive)
+            const nameUpper = emp.name.toUpperCase();
+            let inter;
+            if (topData[nameUpper]) {
+                inter = {...topData[nameUpper]};
+            } else {
+                // Karyawan lain: like=13, comment=0, save acak 5-13, share acak 0-8
+                const seed = emp.no * 7 + 13;
+                const random = (min,max) => Math.floor((Math.sin(seed+emp.no*3)*10000 % (max-min+1)) + min);
+                const saveVal = random(5, 13);
+                const shareVal = random(0, 8);
+                inter = {like:13, comment:0, share:shareVal, save:saveVal};
+            }
+            map.set(emp.no, inter);
         }
-        return interactionsMap;
+        return map;
     }
 
     function calculateTotal(inter) {
         return (inter.like * 1) + (inter.comment * 2) + (inter.share * 3) + (inter.save * 1.5);
     }
 
-    async function generateReport(month) {
-        const interactionData = await fetchInteractionsFromAPI(month);
-        
+    function generateReport(month) {
+        const interactionData = fetchInteractionsForJune2026(month);
         let reportRows = employeesRaw.map(emp => {
-            const inter = interactionData.get(emp.no) || { like:0, comment:0, share:0, save:0 };
+            const inter = interactionData.get(emp.no) || {like:0, comment:0, share:0, save:0};
             const total = calculateTotal(inter);
-            return {
-                ...emp,
-                like: inter.like,
-                comment: inter.comment,
-                share: inter.share,
-                save: inter.save,
-                total: total
-            };
+            return {...emp, like:inter.like, comment:inter.comment, share:inter.share, save:inter.save, total};
         });
-        
+
         const withAccount = reportRows.filter(r => r.hasAccount === true);
         const withoutAccount = reportRows.filter(r => r.hasAccount === false);
         withAccount.sort((a,b) => b.total - a.total);
         withoutAccount.sort((a,b) => a.name.localeCompare(b.name));
         const sortedFull = [...withAccount, ...withoutAccount];
-        
-        // Simpan untuk keperluan export
         currentReportData = sortedFull;
-        
-        // Update statistik
+
+        // Statistik
         const totalParticipants = withAccount.length;
         const totalInteractionsAll = withAccount.reduce((acc, r) => acc + r.like + r.comment + r.share + r.save, 0);
         const avgScore = withAccount.length ? (withAccount.reduce((acc,r) => acc + r.total,0)/withAccount.length).toFixed(1) : 0;
-        
+
         document.getElementById('statsGrid').innerHTML = `
             <div class="stat-card"><div class="label">👥 Karyawan Aktif (punya IG)</div><div class="value">${totalParticipants}</div></div>
             <div class="stat-card"><div class="label">📊 Total Interaksi Bulan Ini</div><div class="value">${totalInteractionsAll}</div></div>
             <div class="stat-card"><div class="label">⭐ Rata-rata Skor Partisipasi</div><div class="value">${avgScore}</div></div>
             <div class="stat-card"><div class="label">📆 Bulan Laporan</div><div class="value">${formatMonth(month)}</div></div>
         `;
-        
-        // Render tabel
+
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
         let rank = 1;
         for (let i=0; i<sortedFull.length; i++) {
             const row = sortedFull[i];
             let rankDisplay = '';
-            if(row.hasAccount && rank <= 10) {
+            if (row.hasAccount) {
                 let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
                 rankDisplay = `<div class="rank-badge ${rankClass}">${rank}</div>`;
-            } else if(row.hasAccount) {
-                rankDisplay = `<div class="rank-badge">${rank}</div>`;
+                rank++;
             } else {
                 rankDisplay = `<div class="rank-badge">-</div>`;
             }
-            
-            const igDisplay = row.hasAccount ? `<a href="https://instagram.com/${row.ig}" target="_blank" class="ig-link"><i class="fab fa-instagram"></i> @${row.ig}</a>` : `<span class="badge-no-acc"><i class="fas fa-ban"></i> Tidak punya akun</span>`;
-            
+            const igDisplay = row.hasAccount 
+                ? `<a href="https://instagram.com/${row.ig}" target="_blank" class="ig-link"><i class="fab fa-instagram"></i> @${row.ig}</a>` 
+                : `<span class="badge-no-acc"><i class="fas fa-ban"></i> Tidak punya akun</span>`;
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td style="text-align:center">${rankDisplay}</td>
@@ -470,31 +293,27 @@
                 <td><span class="total-point">${row.total.toFixed(1)} pts</span></td>
             `;
             tbody.appendChild(tr);
-            if(row.hasAccount) rank++;
         }
         return sortedFull;
     }
-    
+
     function formatMonth(monthStr) {
         const [year, month] = monthStr.split('-');
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
         return `${months[parseInt(month)-1]} ${year}`;
     }
 
-    // Fungsi Download CSV (Excel)
+    // CSV
     function downloadCSV(data, month) {
-        let csvRows = [];
-        csvRows.push(["Peringkat","No","Nama Karyawan","Akun IG","Like","Komen","Share/Repost","Save","Total Skor"]);
-        let rankCounter = 1;
-        for(let row of data) {
-            let rankVal = row.hasAccount ? rankCounter++ : "-";
-            let igVal = row.hasAccount ? `@${row.ig}` : "Tidak punya akun";
-            csvRows.push([
-                rankVal, row.no, row.name, igVal, row.like, row.comment, row.share, row.save, row.total.toFixed(1)
-            ]);
+        let rows = [["Peringkat","No","Nama Karyawan","Akun IG","Like","Komen","Share/Repost","Save","Total Skor"]];
+        let rank = 1;
+        for (let r of data) {
+            let rankVal = r.hasAccount ? rank++ : "-";
+            let igVal = r.hasAccount ? `@${r.ig}` : "Tidak punya akun";
+            rows.push([rankVal, r.no, r.name, igVal, r.like, r.comment, r.share, r.save, r.total.toFixed(1)]);
         }
-        const csvContent = csvRows.map(row => row.join(",")).join("\n");
-        const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+        const csvContent = rows.map(row => row.join(",")).join("\n");
+        const blob = new Blob(["\uFEFF" + csvContent], {type:"text/csv;charset=utf-8;"});
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.href = url;
@@ -504,23 +323,19 @@
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     }
-    
-    // Download PDF - menggunakan html2pdf
+
+    // PDF
     async function downloadPDF(month) {
         const loading = document.getElementById('loadingOverlay');
         loading.style.display = 'flex';
         try {
-            // Clone elemen tabel untuk PDF
             const originalTable = document.getElementById('reportContainer');
             const cloneDiv = originalTable.cloneNode(true);
-            // styling tambahan untuk PDF
             cloneDiv.style.background = 'white';
             cloneDiv.style.padding = '20px';
             cloneDiv.style.borderRadius = '0';
-            
             const tempContainer = document.createElement('div');
             tempContainer.appendChild(cloneDiv);
-            // tambahkan header laporan untuk PDF
             const headerPDF = document.createElement('div');
             headerPDF.innerHTML = `
                 <div style="text-align:center; margin-bottom:20px;">
@@ -530,7 +345,6 @@
                 </div>
             `;
             tempContainer.insertBefore(headerPDF, tempContainer.firstChild);
-            
             const opt = {
                 margin: [0.5, 0.5, 0.5, 0.5],
                 filename: `Laporan_Interaksi_${month}.pdf`,
@@ -540,31 +354,29 @@
             };
             await html2pdf().set(opt).from(tempContainer).save();
         } catch(err) {
-            console.error("Gagal generate PDF", err);
-            alert("Terjadi kesalahan saat generate PDF, coba lagi.");
+            console.error(err);
+            alert("Terjadi kesalahan saat generate PDF.");
         } finally {
             loading.style.display = 'none';
         }
     }
 
-    // Event handlers
+    // Event
     document.getElementById('downloadCsvBtn').addEventListener('click', () => {
-        if(currentReportData.length) downloadCSV(currentReportData, currentMonth);
-        else alert("Data belum tersedia, silahkan refresh laporan.");
+        if (currentReportData.length) downloadCSV(currentReportData, currentMonth);
+        else alert("Data belum tersedia.");
     });
-    
     document.getElementById('downloadPdfBtn').addEventListener('click', () => {
-        if(currentReportData.length) downloadPDF(currentMonth);
-        else alert("Data belum dimuat, silahkan tunggu.");
+        if (currentReportData.length) downloadPDF(currentMonth);
+        else alert("Data belum dimuat.");
     });
-    
     document.getElementById('refreshMonthBtn').addEventListener('click', async () => {
         currentMonth = document.getElementById('monthSelector').value;
-        document.getElementById('periodDisplay').innerHTML = `<i class="far fa-calendar-alt"></i> Periode: 1 - ${new Date(currentMonth+'-01').toLocaleDateString('id-ID', { month:'long', year:'numeric' })}`;
+        document.getElementById('periodDisplay').innerHTML = `<i class="far fa-calendar-alt"></i> Periode: 1 - 30 ${formatMonth(currentMonth)}`;
         await generateReport(currentMonth);
     });
-    
-    // Inisialisasi awal
+
+    // Init
     async function init() {
         await generateReport(currentMonth);
         setInterval(async () => {
@@ -572,7 +384,6 @@
             await generateReport(currentMonth);
         }, 60000);
     }
-    
     init();
 </script>
 </body>
