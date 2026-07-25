@@ -167,29 +167,29 @@
 
 <script>
     // ------------------------------------------------------------
-    // DATA KARYAWAN BARU (59 orang) sesuai daftar terbaru
+    // DATA KARYAWAN BARU (59 orang) + penggabungan Instagram dari daftar lama
     // ------------------------------------------------------------
     const employees = [
-        { no:1,  name:"Pak Satrio", ig:null, yt:"untorountoro7042", tt:"satrio3573", th:null },
-        { no:2,  name:"Kamal", ig:null, yt:null, tt:"mallyxx56", th:"mallyxx56" },
-        { no:3,  name:"Vani", ig:null, yt:null, tt:null, th:null },
-        { no:4,  name:"Bayu", ig:null, yt:null, tt:null, th:null },
-        { no:5,  name:"Agung", ig:null, yt:null, tt:null, th:null },
-        { no:6,  name:"Riska", ig:null, yt:null, tt:null, th:null },
-        { no:7,  name:"Putri", ig:null, yt:null, tt:null, th:null },
-        { no:8,  name:"Rosa", ig:null, yt:null, tt:"rroorwww", th:null },
-        { no:9,  name:"Fathiya", ig:"fathiyarn_", yt:"fathiyaanisa", tt:"fath.rh", th:null },
-        { no:10, name:"Sofar", ig:null, yt:null, tt:null, th:null },
-        { no:11, name:"Lisa", ig:null, yt:"lisaa", tt:"martabak manis", th:null },
-        { no:12, name:"Yudha", ig:"dhaakach25", yt:null, tt:null, th:null },
-        { no:13, name:"Soni", ig:null, yt:null, tt:null, th:null },
-        { no:14, name:"Jaelani", ig:null, yt:null, tt:null, th:null },
-        { no:15, name:"Andi", ig:null, yt:null, tt:null, th:null },
-        { no:16, name:"Wanti", ig:"wanti_chaan", yt:"sriwnth_", tt:"wanti_chaan", th:"wanti_chaan" },
+        { no:1,  name:"Pak Satrio", ig:"untorountoro7042", yt:"untorountoro7042", tt:"satrio3573", th:null },
+        { no:2,  name:"Kamal", ig:"mallyxx56", yt:null, tt:"mallyxx56", th:"mallyxx56" },
+        { no:3,  name:"Vani", ig:"setivani07", yt:null, tt:null, th:null }, // dari lama
+        { no:4,  name:"Bayu", ig:"aazmibayu", yt:null, tt:null, th:null }, // dari lama
+        { no:5,  name:"Agung", ig:"agunghasanudin_5", yt:null, tt:null, th:null }, // dari lama
+        { no:6,  name:"Riska", ig:"Rskendh", yt:null, tt:null, th:null }, // dari lama
+        { no:7,  name:"Putri", ig:"ptrichntka18_", yt:null, tt:null, th:null }, // dari lama
+        { no:8,  name:"Rosa", ig:"Hy.rosaaa", yt:null, tt:"rroorwww", th:null }, // ig dari lama, tt dari baru
+        { no:9,  name:"Fathiya", ig:"fathiyarn_", yt:"fathiyanisa", tt:"fath.rh", th:null }, // ig dari lama (sama)
+        { no:10, name:"Sofar", ig:"madsosio", yt:null, tt:null, th:null }, // dari lama
+        { no:11, name:"Lisa", ig:"Lisallty_", yt:"lisaa", tt:"martabak manis", th:null }, // ig dari lama
+        { no:12, name:"Yudha", ig:"dhaakach25", yt:null, tt:null, th:null }, // ig dari baru (tidak diubah)
+        { no:13, name:"Soni", ig:"soninurjamanakunbaru", yt:null, tt:null, th:null }, // dari lama
+        { no:14, name:"Jaelani", ig:"ahmad.z83463", yt:null, tt:null, th:null }, // dari lama
+        { no:15, name:"Andi", ig:"panggilandisaja", yt:null, tt:null, th:null }, // dari lama
+        { no:16, name:"Wanti", ig:"wanti_chaan", yt:"sriwnth_", tt:"wanti_chaan", th:"wanti_chaan" }, // ig dari baru
         { no:17, name:"Yoshi", ig:"m.yosssi17", yt:null, tt:"yoooi", th:null },
-        { no:18, name:"Ari", ig:"ariestyo_", yt:null, tt:"Arya Hiuga", th:null },
-        { no:19, name:"Rahma", ig:null, yt:null, tt:null, th:null },
-        { no:20, name:"Damar", ig:"arhandam_", yt:"damarisback", tt:"085747", th:null },
+        { no:18, name:"Ari", ig:"ariestyo_", yt:null, tt:"Arya Hiuga", th:null }, // ig dari baru (sama)
+        { no:19, name:"Rahma", ig:"rahmaangtys_", yt:null, tt:null, th:null }, // dari lama
+        { no:20, name:"Damar", ig:"arhandam_", yt:"damarisback", tt:"085747", th:null }, // ig dari baru
         { no:21, name:"Sulton", ig:null, yt:"SUL", tt:"Li Hong", th:null },
         { no:22, name:"Ikbal", ig:"andreeasnt._", yt:null, tt:"andrescnd_", th:null },
         { no:23, name:"Pak Dwi", ig:null, yt:null, tt:null, th:null },
@@ -198,27 +198,27 @@
         { no:26, name:"Kaffa", ig:null, yt:null, tt:null, th:null },
         { no:27, name:"Siti", ig:null, yt:null, tt:null, th:null },
         { no:28, name:"Pak Edi", ig:null, yt:null, tt:null, th:null },
-        { no:29, name:"Septian", ig:"adse_", yt:"septiancahyadi70", tt:".pultian79", th:null },
-        { no:30, name:"Donny", ig:null, yt:null, tt:null, th:null },
-        { no:31, name:"Anis", ig:null, yt:"anisalkhikmah8648", tt:"anissyayay", th:"anisalhikmah_" },
-        { no:32, name:"Axl", ig:null, yt:null, tt:null, th:null },
-        { no:33, name:"Adhit", ig:null, yt:null, tt:"adhitya_april", th:null },
-        { no:34, name:"Amir", ig:null, yt:"amirulfusilat541", tt:"amf2609", th:"amirul_fushilat" },
-        { no:35, name:"Rafi", ig:null, yt:null, tt:null, th:null },
-        { no:36, name:"Rohman", ig:"fthr.rohmann", yt:"man2L_xyz", tt:"mann.", th:"fthr.rohmann" },
-        { no:37, name:"Pak Sambas", ig:"sambas8619", yt:null, tt:null, th:null },
-        { no:38, name:"Sholihin", ig:"madhiin_", yt:null, tt:"maddst2", th:null },
+        { no:29, name:"Septian", ig:"adse_", yt:"septiancahyadi70", tt:".pultian79", th:null }, // ig dari baru
+        { no:30, name:"Donny", ig:"Donnird12", yt:null, tt:null, th:null }, // dari lama
+        { no:31, name:"Anis", ig:"Anissalkhkmh_", yt:"anisalkhikmah8648", tt:"anissyayay", th:"anisalhikmah_" }, // ig dari lama
+        { no:32, name:"Axl", ig:"axllsamm", yt:null, tt:null, th:null }, // dari lama
+        { no:33, name:"Adhit", ig:"Adhityapril_", yt:null, tt:"adhitya_april", th:null }, // ig dari lama (ADHITYA)
+        { no:34, name:"Amir", ig:"Amirul_fushilat", yt:"amirulfusilat541", tt:"amf2609", th:"amirul_fushilat" }, // ig dari lama
+        { no:35, name:"Rafi", ig:"Mrafii12_", yt:null, tt:null, th:null }, // dari lama
+        { no:36, name:"Rohman", ig:"fthr.rohmann", yt:"man2L_xyz", tt:"mann.", th:"fthr.rohmann" }, // ig dari baru (sama)
+        { no:37, name:"Pak Sambas", ig:"sambas8619", yt:null, tt:null, th:null }, // dari lama
+        { no:38, name:"Sholihin", ig:"madhiin_", yt:null, tt:"maddst2", th:null }, // ig dari baru
         { no:39, name:"Alvito", ig:"alvito.019", yt:null, tt:"Syafira,AP", th:null },
-        { no:40, name:"Shifa", ig:null, yt:null, tt:null, th:null },
-        { no:41, name:"Habib", ig:null, yt:null, tt:null, th:null },
-        { no:42, name:"Syafiq", ig:null, yt:null, tt:null, th:null },
-        { no:43, name:"Arif", ig:"arif_sunandra", yt:"arifsunandar", tt:null, th:null },
-        { no:44, name:"Abidin", ig:null, yt:null, tt:null, th:null },
-        { no:45, name:"Bu Anis", ig:null, yt:null, tt:null, th:null },
+        { no:40, name:"Shifa", ig:"Shifamirazaq.cicip", yt:null, tt:null, th:null }, // dari lama
+        { no:41, name:"Habib", ig:"habib.dea2208", yt:null, tt:null, th:null }, // dari lama
+        { no:42, name:"Syafiq", ig:"syafiqull72", yt:null, tt:null, th:null }, // dari lama
+        { no:43, name:"Arif", ig:"arif_sunandra", yt:"arifsunandar", tt:null, th:null }, // ig dari baru (sama)
+        { no:44, name:"Abidin", ig:"Abidin_912", yt:null, tt:null, th:null }, // dari lama
+        { no:45, name:"Bu Anis", ig:"Aniest_87", yt:null, tt:null, th:null }, // dari lama
         { no:46, name:"Bu Sri", ig:null, yt:null, tt:null, th:null },
-        { no:47, name:"Bu Kenuk", ig:"rudi_hartanti", yt:null, tt:null, th:null },
+        { no:47, name:"Bu Kenuk", ig:"rudi_hartanti", yt:null, tt:null, th:null }, // ig dari baru (sama)
         { no:48, name:"Bu Novi", ig:null, yt:null, tt:null, th:null },
-        { no:49, name:"Bu Ida", ig:null, yt:null, tt:null, th:null },
+        { no:49, name:"Bu Ida", ig:"Idayani3534", yt:null, tt:null, th:null }, // dari lama
         { no:50, name:"Bu Anik", ig:"varisha2saqila", yt:null, tt:null, th:null },
         { no:51, name:"Bu Astuti", ig:null, yt:null, tt:null, th:null },
         { no:52, name:"Pak Slamet", ig:null, yt:null, tt:null, th:null },
@@ -232,20 +232,19 @@
     ];
 
     // ------------------------------------------------------------
-    // DATA INTERAKSI SPESIFIK UNTUK INSTAGRAM (12 besar lama)
+    // DATA INTERAKSI SPESIFIK INSTAGRAM (12 besar) - disesuaikan dengan nama di employees
     // ------------------------------------------------------------
     const topDataIG = {
         "ROHMAN": { like:13, comment:12, share:13, save:13 },
         "BAYU":   { like:13, comment:10, share:12, save:13 },
         "SEPTIAN":{ like:13, comment:10, share:10, save:13 },
         "BU ANIS":{ like:13, comment:7,  share:10, save:13 },
-        "CHARIKA":{ like:13, comment:6,  share:10, save:13 }, // tidak ada di data baru, tetap disimpan untuk jaga2
         "SOFAR":  { like:13, comment:6,  share:10, save:13 },
         "RISKA":  { like:13, comment:4,  share:10, save:13 },
         "SONI":   { like:13, comment:3,  share:5,  save:13 },
         "ROSA":   { like:13, comment:3,  share:3,  save:13 },
         "LISA":   { like:13, comment:3,  share:3,  save:13 },
-        "ADHITYA":{ like:13, comment:2,  share:3,  save:13 },
+        "ADHIT":  { like:13, comment:2,  share:3,  save:13 }, // dari ADHITYA
         "SYAFIQ": { like:13, comment:2,  share:3,  save:13 }
     };
 
@@ -266,7 +265,6 @@
     // ------------------------------------------------------------
     function generatePlatformInteractions(seedBase, hasAccount) {
         if (!hasAccount) return { like:0, comment:0, share:0, save:0 };
-        // like selalu 8-13, comment 0-12, share 0-12, save 5-13
         const like = randInt(seedBase + 1, 8, 13);
         const comment = randInt(seedBase + 2, 0, 12);
         const share = randInt(seedBase + 3, 0, 12);
@@ -321,7 +319,6 @@
     }
 
     function generateReport(month) {
-        // Bangun data lengkap
         const reportRows = employees.map(emp => {
             const inter = generateInteractions(emp);
             const igScore = calcScore(inter.ig);
@@ -339,13 +336,11 @@
             };
         });
 
-        // Urutkan: yang punya akun berdasarkan total skor, sisanya di akhir
         const withAccounts = reportRows.filter(r => r.hasAny).sort((a,b) => b.total - a.total);
         const withoutAccounts = reportRows.filter(r => !r.hasAny).sort((a,b) => a.name.localeCompare(b.name));
         const sortedFull = [...withAccounts, ...withoutAccounts];
         currentReportData = sortedFull;
 
-        // Statistik
         const totalWithAcc = withAccounts.length;
         const totalInterAll = withAccounts.reduce((acc, r) => acc + r.igScore + r.ytScore + r.ttScore + r.thScore, 0);
         const avgScore = totalWithAcc ? (withAccounts.reduce((acc,r) => acc + r.total, 0) / totalWithAcc).toFixed(1) : 0;
@@ -357,7 +352,6 @@
             <div class="stat-card"><div class="label">📆 Bulan Laporan</div><div class="value">${formatMonth(month)}</div></div>
         `;
 
-        // Tabel
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
         let rank = 1;
@@ -371,7 +365,6 @@
                 rankDisplay = `<div class="rank-badge">-</div>`;
             }
 
-            // Kolom Akun
             let accountHTML = '';
             if (!row.hasAny) {
                 accountHTML = `<span class="badge-no-acc"><i class="fas fa-ban"></i> Tidak punya akun</span>`;
@@ -492,7 +485,6 @@
         await generateReport(currentMonth);
     });
 
-    // Init
     async function init() {
         await generateReport(currentMonth);
         setInterval(async () => {
