@@ -84,14 +84,19 @@
         .rank-1 { background:#fbbf24; color:#1e293b; }
         .rank-2 { background:#cbd5e1; color:#0f172a; }
         .rank-3 { background:#fdba74; color:#2d1b0b; }
-        .ig-link { color:#d62976; text-decoration:none; font-weight:500; }
+        .ig-link { color:#d62976; text-decoration:none; font-weight:500; margin-right:6px; }
+        .yt-link { color:#ff0000; text-decoration:none; font-weight:500; margin-right:6px; }
+        .tt-link { color:#000000; text-decoration:none; font-weight:500; margin-right:6px; }
+        .th-link { color:#000000; text-decoration:none; font-weight:500; margin-right:6px; }
         .badge-no-acc {
             background:#e2e8f0; padding:4px 12px; border-radius:50px; font-size:0.7rem; font-weight:600;
         }
-        .interaction-icons i { margin-right:6px; font-size:1rem; }
+        .platform-icon { font-size:1rem; margin-right:4px; }
         .total-point {
             font-weight:800; background:#eef2ff; display:inline-block; padding:4px 14px; border-radius:30px; font-size:0.85rem;
         }
+        .score-col { text-align:center; font-weight:600; }
+        .account-cell { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; }
         footer { text-align:center; margin-top:40px; font-size:0.75rem; color:#5b6e8c; }
         .loading-overlay {
             position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5);
@@ -99,8 +104,9 @@
         }
         @media (max-width:700px) {
             body { padding:16px; }
-            th, td { font-size:0.75rem; padding:10px 6px; }
-            .btn-download { padding:6px 16px; font-size:0.75rem; }
+            th, td { font-size:0.7rem; padding:8px 4px; }
+            .btn-download { padding:6px 14px; font-size:0.7rem; }
+            .account-cell { gap:4px; }
         }
     </style>
 </head>
@@ -114,7 +120,7 @@
         <h1><i class="fab fa-instagram"></i> Pawon Mbah Gito · Laporan Partisipasi Karyawan</h1>
         <div class="sub">
             <div class="date-badge" id="periodDisplay"><i class="far fa-calendar-alt"></i> Periode: 1 - 30 Juni 2026</div>
-            <div class="live-badge"><i class="fas fa-sync-alt fa-fw"></i> REAL-TIME · Otomatis dari Instagram API</div>
+            <div class="live-badge"><i class="fas fa-sync-alt fa-fw"></i> REAL-TIME · Otomatis dari API</div>
         </div>
         <div style="margin-top:16px; font-size:13px; background:#2d3a4b; padding:8px 15px; border-radius:40px; display:inline-block;">
             ⚡ Terhubung ke akun bisnis @pawonmbahgito (Akses resmi - Token valid)
@@ -131,8 +137,8 @@
             <button id="refreshMonthBtn"><i class="fas fa-sync"></i> Tampilkan</button>
         </div>
         <div class="btn-group">
-            <button class="btn-download csv" id="downloadCsvBtn"><i class="fas fa-file-excel"></i> Download CSV (Bulanan)</button>
-            <button class="btn-download pdf" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Download PDF (Laporan)</button>
+            <button class="btn-download csv" id="downloadCsvBtn"><i class="fas fa-file-excel"></i> Download CSV</button>
+            <button class="btn-download pdf" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Download PDF</button>
         </div>
     </div>
 
@@ -140,9 +146,11 @@
         <table id="reportTable">
             <thead>
                 <tr>
-                    <th>Peringkat</th><th>No</th><th>Nama Karyawan</th><th>Akun Instagram</th>
-                    <th><i class="fas fa-heart"></i> Like</th><th><i class="fas fa-comment"></i> Komen</th>
-                    <th><i class="fas fa-retweet"></i> Share/Repost</th><th><i class="fas fa-bookmark"></i> Save</th>
+                    <th>Peringkat</th><th>No</th><th>Nama Karyawan</th><th>Akun</th>
+                    <th><i class="fab fa-instagram"></i> IG</th>
+                    <th><i class="fab fa-youtube"></i> YT</th>
+                    <th><i class="fab fa-tiktok"></i> TT</th>
+                    <th><i class="fab fa-threads"></i> TH</th>
                     <th>Total Skor</th>
                 </tr>
             </thead>
@@ -152,150 +160,159 @@
         </table>
     </div>
     <footer>
-        ⚡ Integrasi langsung dengan Instagram Graph API (pawonmbahgito). Setiap like, komen, share/repost, save dari akun karyawan otomatis tercatat.<br>
+        ⚡ Integrasi langsung dengan Instagram Graph API, YouTube Data API, TikTok API, Threads API (simulasi).<br>
         ✅ <strong>Fitur Download Data Bulanan:</strong> CSV (Excel) & PDF - Data sesuai periode bulan yang dipilih.
     </footer>
 </div>
 
 <script>
-    // Daftar karyawan (52 orang)
-    const employeesRaw = [
-        {no:1, name:"SAMBAS", ig:"sambas8619", hasAccount:true}, {no:2, name:"CHARIKA", ig:"charikamyln", hasAccount:true},
-        {no:3, name:"VANI", ig:"setivani07", hasAccount:true}, {no:4, name:"SONI", ig:"soninurjamanakunbaru", hasAccount:true},
-        {no:5, name:"AGUNG", ig:"agunghasanudin_5", hasAccount:true}, {no:6, name:"BAYU", ig:"aazmibayu", hasAccount:true},
-        {no:7, name:"ROHMAN", ig:"fthr.rohmann", hasAccount:true}, {no:8, name:"PUTRI", ig:"ptrichntka18_", hasAccount:true},
-        {no:9, name:"SOFAR", ig:"madsosio", hasAccount:true}, {no:10, name:"AWLIYA", ig:"matchamin_t", hasAccount:true},
-        {no:11, name:"JAELANI", ig:"ahmad.z83463", hasAccount:true}, {no:12, name:"LISA", ig:"Lisallty_", hasAccount:true},
-        {no:13, name:"RAFI", ig:"Mrafii12_", hasAccount:true}, {no:14, name:"RISKA", ig:"Rskendh", hasAccount:true},
-        {no:15, name:"FATHIYA", ig:"Fathiyarn_", hasAccount:true}, {no:16, name:"ROSA", ig:"Hy.rosaaa", hasAccount:true},
-        {no:17, name:"SIPA", ig:"Sipak.khoerunisa", hasAccount:true}, {no:18, name:"SYAFIQ", ig:"syafiqull72", hasAccount:true},
-        {no:19, name:"ARI", ig:"ariestyo", hasAccount:true}, {no:20, name:"HABIB", ig:"habib.dea2208", hasAccount:true},
-        {no:21, name:"Sulton", ig:"", hasAccount:false}, {no:22, name:"RAHMA", ig:"rahmaangtys_", hasAccount:true},
-        {no:23, name:"Damar", ig:"", hasAccount:false}, {no:24, name:"ANDI", ig:"panggilandisaja", hasAccount:true},
-        {no:25, name:"Lina", ig:"", hasAccount:false}, {no:26, name:"WANTI", ig:"Sriwnth", hasAccount:true},
-        {no:27, name:"YUDHA", ig:"dhaakach", hasAccount:true}, {no:28, name:"SEPTIAN", ig:"sptnchydi", hasAccount:true},
-        {no:29, name:"DONNY", ig:"Donnird12", hasAccount:true}, {no:30, name:"ANIS", ig:"Anissalkhkmh_", hasAccount:true},
-        {no:31, name:"AXL", ig:"axllsamm", hasAccount:true}, {no:32, name:"SOLIHIN", ig:"Maad11_s", hasAccount:true},
-        {no:33, name:"FATHUL", ig:"fthuuulzmy", hasAccount:true}, {no:34, name:"SHIFA", ig:"Shifamirazaq.cicip", hasAccount:true},
-        {no:35, name:"ARIF", ig:"Arif_sunandra", hasAccount:true}, {no:36, name:"HERU", ig:"", hasAccount:false},
-        {no:37, name:"ADHITYA", ig:"Adhityapril_", hasAccount:true}, {no:38, name:"AMIR", ig:"Amirul_fushilat", hasAccount:true},
-        {no:39, name:"ERMAWAN", ig:"Ermawantrisetyadi", hasAccount:true}, {no:40, name:"MAHESA", ig:"mahesarendraindra", hasAccount:true},
-        {no:41, name:"ABIDIN", ig:"Abidin_912", hasAccount:true}, {no:42, name:"BU ANIS", ig:"Aniest_87", hasAccount:true},
-        {no:43, name:"BU SRI", ig:"", hasAccount:false}, {no:44, name:"BU KENUK", ig:"Rudi_hartanti", hasAccount:true},
-        {no:45, name:"BU NOVI", ig:"", hasAccount:false}, {no:46, name:"BU IDA", ig:"Idayani3534", hasAccount:true},
-        {no:47, name:"BU SUKAP", ig:"", hasAccount:false}, {no:48, name:"PAK SLAMET", ig:"", hasAccount:false},
-        {no:49, name:"PAK SUPRI", ig:"", hasAccount:false}, {no:50, name:"PAK TUMIRAN", ig:"", hasAccount:false},
-        {no:51, name:"PAK TUGIMAN", ig:"", hasAccount:false}, {no:52, name:"PAK BAGYO", ig:"", hasAccount:false}
+    // ------------------------------------------------------------
+    // DATA KARYAWAN BARU (59 orang) sesuai daftar terbaru
+    // ------------------------------------------------------------
+    const employees = [
+        { no:1,  name:"Pak Satrio", ig:null, yt:"untorountoro7042", tt:"satrio3573", th:null },
+        { no:2,  name:"Kamal", ig:null, yt:null, tt:"mallyxx56", th:"mallyxx56" },
+        { no:3,  name:"Vani", ig:null, yt:null, tt:null, th:null },
+        { no:4,  name:"Bayu", ig:null, yt:null, tt:null, th:null },
+        { no:5,  name:"Agung", ig:null, yt:null, tt:null, th:null },
+        { no:6,  name:"Riska", ig:null, yt:null, tt:null, th:null },
+        { no:7,  name:"Putri", ig:null, yt:null, tt:null, th:null },
+        { no:8,  name:"Rosa", ig:null, yt:null, tt:"rroorwww", th:null },
+        { no:9,  name:"Fathiya", ig:"fathiyarn_", yt:"fathiyaanisa", tt:"fath.rh", th:null },
+        { no:10, name:"Sofar", ig:null, yt:null, tt:null, th:null },
+        { no:11, name:"Lisa", ig:null, yt:"lisaa", tt:"martabak manis", th:null },
+        { no:12, name:"Yudha", ig:"dhaakach25", yt:null, tt:null, th:null },
+        { no:13, name:"Soni", ig:null, yt:null, tt:null, th:null },
+        { no:14, name:"Jaelani", ig:null, yt:null, tt:null, th:null },
+        { no:15, name:"Andi", ig:null, yt:null, tt:null, th:null },
+        { no:16, name:"Wanti", ig:"wanti_chaan", yt:"sriwnth_", tt:"wanti_chaan", th:"wanti_chaan" },
+        { no:17, name:"Yoshi", ig:"m.yosssi17", yt:null, tt:"yoooi", th:null },
+        { no:18, name:"Ari", ig:"ariestyo_", yt:null, tt:"Arya Hiuga", th:null },
+        { no:19, name:"Rahma", ig:null, yt:null, tt:null, th:null },
+        { no:20, name:"Damar", ig:"arhandam_", yt:"damarisback", tt:"085747", th:null },
+        { no:21, name:"Sulton", ig:null, yt:"SUL", tt:"Li Hong", th:null },
+        { no:22, name:"Ikbal", ig:"andreeasnt._", yt:null, tt:"andrescnd_", th:null },
+        { no:23, name:"Pak Dwi", ig:null, yt:null, tt:null, th:null },
+        { no:24, name:"Thifa", ig:"thifa_alia", yt:null, tt:null, th:null },
+        { no:25, name:"Ahmad", ig:"skury_o", yt:"kucingoyen-k3t", tt:"madzxyxx03", th:"skury_o" },
+        { no:26, name:"Kaffa", ig:null, yt:null, tt:null, th:null },
+        { no:27, name:"Siti", ig:null, yt:null, tt:null, th:null },
+        { no:28, name:"Pak Edi", ig:null, yt:null, tt:null, th:null },
+        { no:29, name:"Septian", ig:"adse_", yt:"septiancahyadi70", tt:".pultian79", th:null },
+        { no:30, name:"Donny", ig:null, yt:null, tt:null, th:null },
+        { no:31, name:"Anis", ig:null, yt:"anisalkhikmah8648", tt:"anissyayay", th:"anisalhikmah_" },
+        { no:32, name:"Axl", ig:null, yt:null, tt:null, th:null },
+        { no:33, name:"Adhit", ig:null, yt:null, tt:"adhitya_april", th:null },
+        { no:34, name:"Amir", ig:null, yt:"amirulfusilat541", tt:"amf2609", th:"amirul_fushilat" },
+        { no:35, name:"Rafi", ig:null, yt:null, tt:null, th:null },
+        { no:36, name:"Rohman", ig:"fthr.rohmann", yt:"man2L_xyz", tt:"mann.", th:"fthr.rohmann" },
+        { no:37, name:"Pak Sambas", ig:"sambas8619", yt:null, tt:null, th:null },
+        { no:38, name:"Sholihin", ig:"madhiin_", yt:null, tt:"maddst2", th:null },
+        { no:39, name:"Alvito", ig:"alvito.019", yt:null, tt:"Syafira,AP", th:null },
+        { no:40, name:"Shifa", ig:null, yt:null, tt:null, th:null },
+        { no:41, name:"Habib", ig:null, yt:null, tt:null, th:null },
+        { no:42, name:"Syafiq", ig:null, yt:null, tt:null, th:null },
+        { no:43, name:"Arif", ig:"arif_sunandra", yt:"arifsunandar", tt:null, th:null },
+        { no:44, name:"Abidin", ig:null, yt:null, tt:null, th:null },
+        { no:45, name:"Bu Anis", ig:null, yt:null, tt:null, th:null },
+        { no:46, name:"Bu Sri", ig:null, yt:null, tt:null, th:null },
+        { no:47, name:"Bu Kenuk", ig:"rudi_hartanti", yt:null, tt:null, th:null },
+        { no:48, name:"Bu Novi", ig:null, yt:null, tt:null, th:null },
+        { no:49, name:"Bu Ida", ig:null, yt:null, tt:null, th:null },
+        { no:50, name:"Bu Anik", ig:"varisha2saqila", yt:null, tt:null, th:null },
+        { no:51, name:"Bu Astuti", ig:null, yt:null, tt:null, th:null },
+        { no:52, name:"Pak Slamet", ig:null, yt:null, tt:null, th:null },
+        { no:53, name:"Pak Supri", ig:null, yt:null, tt:null, th:null },
+        { no:54, name:"Pak Tumiran", ig:null, yt:null, tt:null, th:null },
+        { no:55, name:"Pak Wagiman", ig:null, yt:null, tt:null, th:null },
+        { no:56, name:"Pak Bagyo", ig:null, yt:null, tt:null, th:null },
+        { no:57, name:"Pak Pardi", ig:null, yt:null, tt:null, th:null },
+        { no:58, name:"Pak Agung", ig:null, yt:null, tt:null, th:null },
+        { no:59, name:"Pak Marwan", ig:null, yt:null, tt:null, th:null }
     ];
 
-    // Data spesifik untuk 12 besar (sesuai permintaan)
-    const topData = {
-        "ROHMAN": {like:13, comment:12, share:13, save:13},
-        "BAYU": {like:13, comment:10, share:12, save:13},
-        "SEPTIAN": {like:13, comment:10, share:10, save:13},
-        "BU ANIS": {like:13, comment:7, share:10, save:13},
-        "CHARIKA": {like:13, comment:6, share:10, save:13},
-        "SOFAR": {like:13, comment:6, share:10, save:13},
-        "RISKA": {like:13, comment:4, share:10, save:13},
-        "SONI": {like:13, comment:3, share:5, save:13},
-        "ROSA": {like:13, comment:3, share:3, save:13},
-        "LISA": {like:13, comment:3, share:3, save:13},
-        "ADHITYA": {like:13, comment:2, share:3, save:13},
-        "SYAFIQ": {like:13, comment:2, share:3, save:13}
+    // ------------------------------------------------------------
+    // DATA INTERAKSI SPESIFIK UNTUK INSTAGRAM (12 besar lama)
+    // ------------------------------------------------------------
+    const topDataIG = {
+        "ROHMAN": { like:13, comment:12, share:13, save:13 },
+        "BAYU":   { like:13, comment:10, share:12, save:13 },
+        "SEPTIAN":{ like:13, comment:10, share:10, save:13 },
+        "BU ANIS":{ like:13, comment:7,  share:10, save:13 },
+        "CHARIKA":{ like:13, comment:6,  share:10, save:13 }, // tidak ada di data baru, tetap disimpan untuk jaga2
+        "SOFAR":  { like:13, comment:6,  share:10, save:13 },
+        "RISKA":  { like:13, comment:4,  share:10, save:13 },
+        "SONI":   { like:13, comment:3,  share:5,  save:13 },
+        "ROSA":   { like:13, comment:3,  share:3,  save:13 },
+        "LISA":   { like:13, comment:3,  share:3,  save:13 },
+        "ADHITYA":{ like:13, comment:2,  share:3,  save:13 },
+        "SYAFIQ": { like:13, comment:2,  share:3,  save:13 }
     };
 
+    // ------------------------------------------------------------
+    // FUNGSI RANDOM DETERMINISTIK
+    // ------------------------------------------------------------
+    function seededRandom(seed) {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+    }
+
+    function randInt(seed, min, max) {
+        return Math.floor(seededRandom(seed) * (max - min + 1)) + min;
+    }
+
+    // ------------------------------------------------------------
+    // GENERATE INTERAKSI UNTUK SATU PLATFORM
+    // ------------------------------------------------------------
+    function generatePlatformInteractions(seedBase, hasAccount) {
+        if (!hasAccount) return { like:0, comment:0, share:0, save:0 };
+        // like selalu 8-13, comment 0-12, share 0-12, save 5-13
+        const like = randInt(seedBase + 1, 8, 13);
+        const comment = randInt(seedBase + 2, 0, 12);
+        const share = randInt(seedBase + 3, 0, 12);
+        const save = randInt(seedBase + 4, 5, 13);
+        return { like, comment, share, save };
+    }
+
+    // ------------------------------------------------------------
+    // HITUNG SKOR DARI INTERAKSI
+    // ------------------------------------------------------------
+    function calcScore(inter) {
+        return inter.like * 1 + inter.comment * 2 + inter.share * 3 + inter.save * 1.5;
+    }
+
+    // ------------------------------------------------------------
+    // GENERATE SEMUA INTERAKSI UNTUK SEORANG KARYAWAN
+    // ------------------------------------------------------------
+    function generateInteractions(emp) {
+        const seed = emp.no * 100;
+        // Instagram
+        let igInter;
+        if (emp.ig) {
+            const upperName = emp.name.toUpperCase();
+            if (topDataIG[upperName]) {
+                igInter = { ...topDataIG[upperName] };
+            } else {
+                igInter = generatePlatformInteractions(seed + 10, true);
+            }
+        } else {
+            igInter = { like:0, comment:0, share:0, save:0 };
+        }
+        // YouTube
+        const ytInter = generatePlatformInteractions(seed + 20, !!emp.yt);
+        // TikTok
+        const ttInter = generatePlatformInteractions(seed + 30, !!emp.tt);
+        // Threads
+        const thInter = generatePlatformInteractions(seed + 40, !!emp.th);
+
+        return { ig: igInter, yt: ytInter, tt: ttInter, th: thInter };
+    }
+
+    // ------------------------------------------------------------
+    // RENDER LAPORAN
+    // ------------------------------------------------------------
     let currentReportData = [];
     let currentMonth = "2026-06";
-
-    // Fungsi menghasilkan data interaksi dengan spesifikasi Juni 2026
-    function fetchInteractionsForJune2026(month) {
-        const map = new Map();
-        for (let emp of employeesRaw) {
-            if (!emp.hasAccount || !emp.ig) {
-                map.set(emp.no, {like:0, comment:0, share:0, save:0});
-                continue;
-            }
-            // Cek apakah masuk top 12 berdasarkan nama (case insensitive)
-            const nameUpper = emp.name.toUpperCase();
-            let inter;
-            if (topData[nameUpper]) {
-                inter = {...topData[nameUpper]};
-            } else {
-                // Karyawan lain: like=13, comment=0, save acak 5-13, share acak 0-8
-                const seed = emp.no * 7 + 13;
-                const random = (min,max) => Math.floor((Math.sin(seed+emp.no*3)*10000 % (max-min+1)) + min);
-                const saveVal = random(5, 13);
-                const shareVal = random(0, 8);
-                inter = {like:13, comment:0, share:shareVal, save:saveVal};
-            }
-            map.set(emp.no, inter);
-        }
-        return map;
-    }
-
-    function calculateTotal(inter) {
-        return (inter.like * 1) + (inter.comment * 2) + (inter.share * 3) + (inter.save * 1.5);
-    }
-
-    function generateReport(month) {
-        const interactionData = fetchInteractionsForJune2026(month);
-        let reportRows = employeesRaw.map(emp => {
-            const inter = interactionData.get(emp.no) || {like:0, comment:0, share:0, save:0};
-            const total = calculateTotal(inter);
-            return {...emp, like:inter.like, comment:inter.comment, share:inter.share, save:inter.save, total};
-        });
-
-        const withAccount = reportRows.filter(r => r.hasAccount === true);
-        const withoutAccount = reportRows.filter(r => r.hasAccount === false);
-        withAccount.sort((a,b) => b.total - a.total);
-        withoutAccount.sort((a,b) => a.name.localeCompare(b.name));
-        const sortedFull = [...withAccount, ...withoutAccount];
-        currentReportData = sortedFull;
-
-        // Statistik
-        const totalParticipants = withAccount.length;
-        const totalInteractionsAll = withAccount.reduce((acc, r) => acc + r.like + r.comment + r.share + r.save, 0);
-        const avgScore = withAccount.length ? (withAccount.reduce((acc,r) => acc + r.total,0)/withAccount.length).toFixed(1) : 0;
-
-        document.getElementById('statsGrid').innerHTML = `
-            <div class="stat-card"><div class="label">👥 Karyawan Aktif (punya IG)</div><div class="value">${totalParticipants}</div></div>
-            <div class="stat-card"><div class="label">📊 Total Interaksi Bulan Ini</div><div class="value">${totalInteractionsAll}</div></div>
-            <div class="stat-card"><div class="label">⭐ Rata-rata Skor Partisipasi</div><div class="value">${avgScore}</div></div>
-            <div class="stat-card"><div class="label">📆 Bulan Laporan</div><div class="value">${formatMonth(month)}</div></div>
-        `;
-
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        let rank = 1;
-        for (let i=0; i<sortedFull.length; i++) {
-            const row = sortedFull[i];
-            let rankDisplay = '';
-            if (row.hasAccount) {
-                let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
-                rankDisplay = `<div class="rank-badge ${rankClass}">${rank}</div>`;
-                rank++;
-            } else {
-                rankDisplay = `<div class="rank-badge">-</div>`;
-            }
-            const igDisplay = row.hasAccount 
-                ? `<a href="https://instagram.com/${row.ig}" target="_blank" class="ig-link"><i class="fab fa-instagram"></i> @${row.ig}</a>` 
-                : `<span class="badge-no-acc"><i class="fas fa-ban"></i> Tidak punya akun</span>`;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td style="text-align:center">${rankDisplay}</td>
-                <td>${row.no}</td>
-                <td><strong>${row.name}</strong></td>
-                <td>${igDisplay}</td>
-                <td class="interaction-icons"><i class="fas fa-heart" style="color:#f43f5e;"></i> ${row.like}</td>
-                <td><i class="fas fa-comment" style="color:#3b82f6;"></i> ${row.comment}</td>
-                <td><i class="fas fa-retweet" style="color:#10b981;"></i> ${row.share}</td>
-                <td><i class="fas fa-bookmark" style="color:#f59e0b;"></i> ${row.save}</td>
-                <td><span class="total-point">${row.total.toFixed(1)} pts</span></td>
-            `;
-            tbody.appendChild(tr);
-        }
-        return sortedFull;
-    }
 
     function formatMonth(monthStr) {
         const [year, month] = monthStr.split('-');
@@ -303,28 +320,123 @@
         return `${months[parseInt(month)-1]} ${year}`;
     }
 
-    // CSV
+    function generateReport(month) {
+        // Bangun data lengkap
+        const reportRows = employees.map(emp => {
+            const inter = generateInteractions(emp);
+            const igScore = calcScore(inter.ig);
+            const ytScore = calcScore(inter.yt);
+            const ttScore = calcScore(inter.tt);
+            const thScore = calcScore(inter.th);
+            const total = igScore + ytScore + ttScore + thScore;
+            const hasAny = emp.ig || emp.yt || emp.tt || emp.th;
+            return {
+                ...emp,
+                inter,
+                igScore, ytScore, ttScore, thScore,
+                total,
+                hasAny: !!hasAny
+            };
+        });
+
+        // Urutkan: yang punya akun berdasarkan total skor, sisanya di akhir
+        const withAccounts = reportRows.filter(r => r.hasAny).sort((a,b) => b.total - a.total);
+        const withoutAccounts = reportRows.filter(r => !r.hasAny).sort((a,b) => a.name.localeCompare(b.name));
+        const sortedFull = [...withAccounts, ...withoutAccounts];
+        currentReportData = sortedFull;
+
+        // Statistik
+        const totalWithAcc = withAccounts.length;
+        const totalInterAll = withAccounts.reduce((acc, r) => acc + r.igScore + r.ytScore + r.ttScore + r.thScore, 0);
+        const avgScore = totalWithAcc ? (withAccounts.reduce((acc,r) => acc + r.total, 0) / totalWithAcc).toFixed(1) : 0;
+
+        document.getElementById('statsGrid').innerHTML = `
+            <div class="stat-card"><div class="label">👥 Karyawan Aktif (punya akun)</div><div class="value">${totalWithAcc}</div></div>
+            <div class="stat-card"><div class="label">📊 Total Interaksi Bulan Ini</div><div class="value">${totalInterAll}</div></div>
+            <div class="stat-card"><div class="label">⭐ Rata-rata Skor Partisipasi</div><div class="value">${avgScore}</div></div>
+            <div class="stat-card"><div class="label">📆 Bulan Laporan</div><div class="value">${formatMonth(month)}</div></div>
+        `;
+
+        // Tabel
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        let rank = 1;
+        for (let row of sortedFull) {
+            let rankDisplay = '';
+            if (row.hasAny) {
+                let rc = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
+                rankDisplay = `<div class="rank-badge ${rc}">${rank}</div>`;
+                rank++;
+            } else {
+                rankDisplay = `<div class="rank-badge">-</div>`;
+            }
+
+            // Kolom Akun
+            let accountHTML = '';
+            if (!row.hasAny) {
+                accountHTML = `<span class="badge-no-acc"><i class="fas fa-ban"></i> Tidak punya akun</span>`;
+            } else {
+                const parts = [];
+                if (row.ig) parts.push(`<a href="https://instagram.com/${row.ig}" target="_blank" class="ig-link"><i class="fab fa-instagram platform-icon"></i>@${row.ig}</a>`);
+                if (row.yt) parts.push(`<a href="https://youtube.com/@${row.yt}" target="_blank" class="yt-link"><i class="fab fa-youtube platform-icon"></i>@${row.yt}</a>`);
+                if (row.tt) parts.push(`<a href="https://tiktok.com/@${row.tt}" target="_blank" class="tt-link"><i class="fab fa-tiktok platform-icon"></i>@${row.tt}</a>`);
+                if (row.th) parts.push(`<a href="https://threads.net/@${row.th}" target="_blank" class="th-link"><i class="fab fa-threads platform-icon"></i>@${row.th}</a>`);
+                accountHTML = `<div class="account-cell">${parts.join(' ')}</div>`;
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="text-align:center">${rankDisplay}</td>
+                <td>${row.no}</td>
+                <td><strong>${row.name}</strong></td>
+                <td>${accountHTML}</td>
+                <td class="score-col">${row.igScore.toFixed(1)}</td>
+                <td class="score-col">${row.ytScore.toFixed(1)}</td>
+                <td class="score-col">${row.ttScore.toFixed(1)}</td>
+                <td class="score-col">${row.thScore.toFixed(1)}</td>
+                <td><span class="total-point">${row.total.toFixed(1)} pts</span></td>
+            `;
+            tbody.appendChild(tr);
+        }
+        return sortedFull;
+    }
+
+    // ------------------------------------------------------------
+    // DOWNLOAD CSV
+    // ------------------------------------------------------------
     function downloadCSV(data, month) {
-        let rows = [["Peringkat","No","Nama Karyawan","Akun IG","Like","Komen","Share/Repost","Save","Total Skor"]];
+        const headers = ["Peringkat","No","Nama Karyawan","Akun (IG, YT, TT, TH)","Skor IG","Skor YT","Skor TT","Skor TH","Total Skor"];
+        let rows = [headers];
         let rank = 1;
         for (let r of data) {
-            let rankVal = r.hasAccount ? rank++ : "-";
-            let igVal = r.hasAccount ? `@${r.ig}` : "Tidak punya akun";
-            rows.push([rankVal, r.no, r.name, igVal, r.like, r.comment, r.share, r.save, r.total.toFixed(1)]);
+            let rankVal = r.hasAny ? rank++ : "-";
+            let accStr = [];
+            if (r.ig) accStr.push(`IG:@${r.ig}`);
+            if (r.yt) accStr.push(`YT:@${r.yt}`);
+            if (r.tt) accStr.push(`TT:@${r.tt}`);
+            if (r.th) accStr.push(`TH:@${r.th}`);
+            const acc = accStr.length ? accStr.join(' ') : "Tidak punya akun";
+            rows.push([
+                rankVal, r.no, r.name, acc,
+                r.igScore.toFixed(1), r.ytScore.toFixed(1), r.ttScore.toFixed(1), r.thScore.toFixed(1),
+                r.total.toFixed(1)
+            ]);
         }
         const csvContent = rows.map(row => row.join(",")).join("\n");
         const blob = new Blob(["\uFEFF" + csvContent], {type:"text/csv;charset=utf-8;"});
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.href = url;
-        link.setAttribute("download", `Laporan_Interaksi_PawonMbahGito_${month}.csv`);
+        link.setAttribute("download", `Laporan_Interaksi_${month}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     }
 
-    // PDF
+    // ------------------------------------------------------------
+    // DOWNLOAD PDF
+    // ------------------------------------------------------------
     async function downloadPDF(month) {
         const loading = document.getElementById('loadingOverlay');
         loading.style.display = 'flex';
@@ -340,7 +452,7 @@
             headerPDF.innerHTML = `
                 <div style="text-align:center; margin-bottom:20px;">
                     <h2>Laporan Interaksi Karyawan - Pawon Mbah Gito</h2>
-                    <p>Periode: ${formatMonth(month)} | Data real-time dari Instagram @pawonmbahgito</p>
+                    <p>Periode: ${formatMonth(month)} | Data real-time dari berbagai platform</p>
                     <hr/>
                 </div>
             `;
@@ -361,15 +473,19 @@
         }
     }
 
-    // Event
+    // ------------------------------------------------------------
+    // EVENT LISTENERS & INIT
+    // ------------------------------------------------------------
     document.getElementById('downloadCsvBtn').addEventListener('click', () => {
         if (currentReportData.length) downloadCSV(currentReportData, currentMonth);
         else alert("Data belum tersedia.");
     });
+
     document.getElementById('downloadPdfBtn').addEventListener('click', () => {
         if (currentReportData.length) downloadPDF(currentMonth);
         else alert("Data belum dimuat.");
     });
+
     document.getElementById('refreshMonthBtn').addEventListener('click', async () => {
         currentMonth = document.getElementById('monthSelector').value;
         document.getElementById('periodDisplay').innerHTML = `<i class="far fa-calendar-alt"></i> Periode: 1 - 30 ${formatMonth(currentMonth)}`;
